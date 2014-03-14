@@ -1,12 +1,14 @@
 \documentclass{article} % For LaTeX2e
 \usepackage{nips13submit_09,times}
 
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
 \usepackage{hyperref}
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{epstopdf}
 \usepackage{multirow}
 \usepackage{tabularx}
+\usepackage[T1]{fontenc}
 %\usepackage{adjustbox}
 
 
@@ -66,6 +68,7 @@ Task Creation Time - Dexin
 
 Context Switch Time - Boyuan/Qiheng
 
+%============================= section ==========================%
 \section{Machine Description}
 
 The machine we used as the subject of our experiments is described in Table 1.
@@ -113,7 +116,9 @@ The machine we used as the subject of our experiments is described in Table 1.
   \label{table:machine_description}
 \end{table}
 
-
+%-----------------------------------------------------------------------------
+% Milestone 1: CPU, Scheduling, and OS Services
+%-----------------------------------------------------------------------------
 \section{CPU, Scheduling, and OS Services}
 
 To accomplish following set of measurements, testing against a normally
@@ -152,7 +157,7 @@ account for the time necessary to execute the succeeding \texttt{getticks()}
 to arrive at our final result.
 
 To measure the overhead time for using a single loop, we chose to measure
-a \texttt{for} loop that will increment a variable from 0 to 10000, and
+a \texttt{for} loop that will increment a variable from 0 to 9999, and
 divided it by 10000 to obtain the overhead taken by a single iteration, which
 includes incrementing and checking. In order to measure purely the looping
 part of the \texttt{for} loop, we put the variable declaration before the
@@ -247,13 +252,13 @@ would not be part of the procedure call itself, and thus not included as part
 of the testing processes.
 
 \subsubsection{Prediction}
-The number of parameter and size of parameter should both affect the time it
-take for a processor call. Without parameters, a procedure should simply be two
+The number of inputs and size of inputs should both affect the time it
+take for a processor call. Without inputs, a procedure should simply be two
 jump instructions. Thus, we predict that the hardware cost of procedure call
-with no parameters should be about 2. The OS need to remember where the
+with no inputs should be about 2. The system needs to remember where the
 processor is called so that it can return, which should only take 1 cycle. As
-parameter size grow, the OS will need to do more operations to copy the
-parameters.
+input size grow, more operations will need to be done to copy the
+input.
 
 \subsubsection{Experiment Results}
 
@@ -267,13 +272,12 @@ parameters.
 \subsubsection{Result Discussion}
 An interesting discovery is that, the relationship between number of
 parameters and the time to issue a procedure call is not a strict linear
-relation. That indicates that, the OS is able to copy multiple
-parameters(integer) in one cycle, which resulst in such a measurement result.
+relation. This means that in one cycles, the system is able to execute more actions than one, which was what we had predicted.
 It appears that, every 4 integer parameters added will add one extra cycle of
 overhead of a procedure call. Thus, we can get to the conclusion that the os
 is able to copy 128 bits of data at the same time.
 
-Notice that we did not substract the reading overhead in the graph, so the
+Notice that we did not subtract the reading overhead in the graph, so the
 actual overhead of procedure call should be 4~6 cycles. Thus, the overhead of
 a procedure call is quite small. If the parameter size is large it will add to
 the overhead, but still pretty fast.
@@ -309,7 +313,7 @@ The experimental results are presented in Table~\ref{table:systemcall_overhead}.
       \begin{tabular}{|l|l|l|l|l|l|}
         \hline
         Operation   & Prediction            & Mean                       & Std. Deviation     \\ \hline
-        getppid()   & \textasciitilde       & 242.35 (96.94 ns)          & 9.06 (3.624 ns)    \\ \hline
+        getppid()   & 15 (7 ns)             & 242.35 (96.94 ns)          & 9.06 (3.624 ns)    \\ \hline
       \end{tabular}
   \end{center}
 \label{table:systemcall_overhead}
@@ -340,7 +344,7 @@ of running. This test was repeated 10000 times, and the average and standard
 deviation were taken while taking into consideration the overhead of reading
 time. We used the same procedures for processes. We created processes using
 \texttt{fork()} and terminated each process using \texttt{\_exit()}
-immediately after creation and running.  Each experiment has 10000 iterations,
+immediately after creation and running.  The times were taken immediately before creation and another time was taken immediately after the process returns from \texttt{\_exit()}.Each experiment has 10000 iterations,
 we run 100 experiments for process creation, and 1000 for thread
 creation(since process creation is too slow) and the average and standard
 deviation were taken while taking into consideration the overhead of reading
@@ -411,22 +415,21 @@ use of the pipe's ability to pass data.
 At first, we tried to use a simple \texttt{fork} followed by and \texttt{exit}
 in the child process, and use \texttt{waitpid} in the parent process in order
 to achieve synchronization. The implementation of this method is trivial, but
-it turned out to generate irregular results. Forking child processes within
+it turned out to generate irregular results this methodology was abandoned. Forking child processes within
 a loop easily drains memory, while using \texttt{waitpid} adds a unstable
 overhead to the measurement.
 
 For user-level process context switching, we eventually decided to use a pipe
 mechanism to ensure synchronization. We first spawned a child process
-wherein a time was taken before a \texttt{write()} procedure to the pipe with
-the time passed into the pipe as part of its arguments. The child process
+, wherein a time was taken before the fork() call, and a \texttt{write()} procedure was done in conjunction with a pipe with which the time into the pipe as part of its arguments. The child process
 immediately calls exit after and a context switch is made back to the parent
 process.  Within the parent process, we immediately call a \texttt{read()}
 procedure and store the first time taken in the child process.  A second time
 is taken right after and the difference is taken. In the parent process, we
-used waitpid() to ensure the following order of execution: parent, child,
+used \texttt{waitpid()} to ensure the following order of execution with the correct parent and chil: parent, child,
 parent. Because pipes forces context switch into the kernel, the significant
-overhead of the \texttt{write()} and \texttt{read()} operations were also
-measured and taken into account in the final calculations. Each context switch
+overhead of the pipe's \texttt{write()} and \texttt{read()} operations were also
+measured and taken into account in the final calculations since they are essentially not part of what we are attempting to benchmark. This overhead was benchmarked by performing multiple \texttt{write()} and \texttt{read()} operations with pipes, and an average was taken over the number of times this was performed. Each context switch
 was performed 10000 times and an average was taken. This measurement tool was
 ran 10000, and an average and standard deviation was taken for the final
 results.
@@ -469,9 +472,9 @@ The results can be found in table~\ref{table:contextSwitch_overhead}.
   \caption{Context switching overhead performance (in cycles)}
   \begin{tabular}{|l|l|l|l|l|l|}
     \hline
-    Operation             & Hardware Est.         & Software Est.         & Prediction            & Mean          & Std. Deviation     \\ \hline
-    Process     & \textless50000  & \textless20000   & \textless60000 & 71582.43 (0.0286 ms)  & 507.32 (0.001 ms)    \\ \hline
-    Kernel Thread      & \textless10000 & \textless10000 & \textless 20000 & 23425.98 (9760.8 ns) & 211.34 (88.058 ns)  \\ \hline
+    Operation          & Hardware Est.   & Software Est.         & Prediction            & Mean          & Std. Deviation     \\ \hline
+    Process            & \textless50000  & \textless20000   & \textless60000 & 71582.43 (0.0286 ms)  & 507.32 (0.001 ms)    \\ \hline
+    Kernel Thread      & \textless10000  & \textless10000 & \textless 20000 & 23425.98 (9760.8 ns) & 211.34 (88.058 ns)  \\ \hline
   \end{tabular}
 \label{table:contextSwitch_overhead}
 \end{center}
@@ -492,12 +495,323 @@ of using semaphores.  Using the pipe mechanism forces the context switch
 orders without much complexity, and it's more trackable to debug.
 
 
+%-----------------------------------------------------------------------------
+% Milestone 2: Memory
+%-----------------------------------------------------------------------------
 
-\subsection{Time Consumption}
+\section{Memory}
+\subsection{RAM access time}
+\subsubsection{Experiment Methodology}
+Our methodology was planned based on the experiments that were done in the lmbench paper. In order to measure the time required to access the two caches and main memory with the least amount of overhead, we chose to do memory accesses using integer arrays. We created arrays of different sizes ranging from KB to 1GB with different strides ranging from 512B to 32KB. With each combination of array size and stride length, we performed 1000000 integer accesses just as the lmbench paper did. While they performed p = *p; in their paper, we did the C++ respective version. Some of the problems that we encountered in our creation of the methodology included pre-fetching. In order to bypass this behavior, we followed the lmbench paper and performed random accesses to the array. In order to bypass the possibility of our random number generator generating the same number, we preloaded integers within the array itself that acts as the location of the next integer access in the array that also takes into account the stride. When running the code, the initial location is randomly accessed. The time of these 1,000,000 accesses were then averaged and given as the time of access for that particular combination of array size and stride length. All time calculations took into account the overhead times involved. The entire experiment was done 10 times, and the average is show in the results below.  
+
+\subsubsection{Prediction}
+From previous experiments, we noticed how difficult it was to estimate the exact numbers for time of access. Therefore, our prediction for this part will be done on what we believe the graph will look like. Based on the fact that accessing the L1 cache is several times faster than accessing the L2 cache, we believe that there will be at least two plateaus and two sharp inclines on the graph. The inclines represent the increase in time necessary to access the L2 cache and the main memory. Based on the hardware specifications, these two inclines should be at the 32KB and 3072KB mark. The plateaus will be a result of the time to access memory from within the cache. Because we are dealing with larger amounts of memory in larger quantities, the numbers were also predicted to be much larger than what we have seen in previous experiments. We also expect a small amount of latency required to access elements in arrays of sizes smaller than the L1 cache. We expect to be about 4 cycle's time or about 1.6 ns. 
+
+\subsubsection{Experiment Results}
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=.5]{cahce_access.png}
+\caption{Latency for individual integer accesses to main memory and the L1 and L2 caches}
+\label{fig:cache_access_time}
+\end{figure}
+
+\subsubsection{Result Discussion}
+In the results graph, we can see a clear staircase shape similar to what we have expected. We see that accessing memory less than the size of the L1 cache (from 10 to 15 on the graph's x-axis) is constant. The increase in time at 32KB shows that we are now accessing memory outside of what the L1 cache can hold. The relative plateau formation from 32KB to 3072KB (from 15 to 21 on the graph's x-axis) shows the latency of accessing L2 cache. Then there is an extreme incline in latency thereafter which represents the difference in time needed to access the main memory compared to the L2 cache. 
+
+An unexpected result was the small dip found in the 128KB region. This may be a result of the possible situation where the stride is not large enough in comparison to the array size. This would mean that the next integer to access would be within some bytes range that was already cached. We can see these smaller dips prevalent throughout the entire graph in different place and in varying degrees. Therefore, for the analysis of our methodology, our method was not completely perfect and there were situation as such that we did not consider. However, for the most part, the methodology is correct. The result shows the trend that we have expected and also matches with what McVoy et. al. reported in the lmbench paper.
+
+
+\subsection{RAM bandwidth}
+\subsubsection{Experiment Methodology}
+In order to measure the bandwidth of memory, we allocate different size of array in memory, then read the whole array sequentially and measure how fast we can read. \\
+On this particular measurement, we implemented our experiment both in c and assembly. We used nasm as the assembler, with the following compiling command:\\
+
+nasm -f elf <source.asm> -o <target.o> \\
+gcc -funroll-loops -m32 -mtune=pentium <target.o> <source.c> -g -lm -o <target>\\
+
+We have the assembly function read the array 100 times consecutively, then free the array and recall the assembly function. We repeatedly call the assembly function 100 times. Thus, we read the array for 10000 times in one experiment. We output the mean time it takes to read the array. Then we execute the experiment 100 times, get the mean value and standard deviation of these experiments. In this process, we've already subtract the getticks overhead from our experiment result\\
+In order to avoid our read being cached, we used the Intel SSE4 streaming load assembly operation ``movntdqa'', which read 16 bytes of data in one operation.\\
+
+\subsubsection{Prediction}
+According to our hardware specification, our maximum memory bandwidth should be:\\
+$$ 667000000 * 2 * 64 / 8 = 10.672GB/s $$
+Thus, we predict that our memory read bandwidth will be less than this value.\\
+
+\subsubsection{Experiment Results}
+Our results are shown in Figure \ref{fig:ram_bw}. and Table \ref{table:mem_bw} \\
+
+\begin{table}
+	\begin{center}
+  \caption{Memory read bandwidth(100 experiments)}
+  \begin{tabular}{|l|l|l|}
+  \hline
+Read size& Bandwidth(MB)& standard deviation \\  \hline
+128B  & 30246.5123374 & 2463.99759062 \\  \hline
+256B  & 32385.0898914 & 985.005918514 \\  \hline
+512B  & 32962.138536  & 334.818111688 \\  \hline
+1KB   & 34406.4881076 & 1022.40808475 \\  \hline
+2KB   & 35220.0924862 & 851.44763812 \\  \hline
+4KB   & 35485.9973028 & 1013.02041157 \\  \hline
+8KB   & 35939.0685171 & 907.868248426 \\  \hline
+16KB  & 35574.1324265 & 1718.20388877 \\  \hline
+32KB  & 31544.0219404 & 1407.52979557 \\  \hline
+64KB  & 16172.9533499 & 744.0446469 \\  \hline
+128KB & 16450.7229957 & 270.207782424 \\  \hline
+256KB & 16519.9494    & 55.4321995455 \\  \hline
+512KB & 16525.8607228 & 60.234820764 \\  \hline
+1MB   & 16494.4736645 & 124.302969813 \\  \hline
+2MB   & 13618.2029798 & 1008.70403144 \\  \hline
+4MB   & 6114.52143216 & 126.829869046 \\  \hline
+8MB   & 5322.41277172 & 29.9100826471 \\  \hline
+16MB  & 5316.23314084 & 27.867507391 \\  \hline
+32MB  & 5314.78016467 & 37.4761378191 \\  \hline
+64MB  & 5311.64655261 & 55.3834994529 \\  \hline
+  \end{tabular}
+\label{table:mem_bw}
+\end{center}
+\end{table}
+
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=.5]{RAM_bw.eps}
+\caption{Left y-axis is bandwidth, right y-axis is std/mean, x-axis is the size of memory read}
+\label{fig:ram_bw}
+\end{figure}
+
+\subsubsection{Result Discussion}
+First of all, from the graph we can clearly see that it is obvious ``movntdqa'' operation did not bypass cache at all. The drop in 32KB size and 3MB size are due to the L1 cache and L2 cache which has exactly the corresponding size. Despite the fact we did not by pass cache, we still believe the memory bandwidth we measured when reading data that has a size over 4MB is a reasonably good approximate of the actual memory bandwidth, which is about 5.3GB/s.\\
+There are several reason that this value is a reasonable approximate: First, since are array size is large enough, every time we repeat the reading the array, the array data will not be in cache any more, cpu will need to get them from memory anyway. Second, although we are aware that cpu will read one whole cache line(64bytes) at a time, we think that, the time of 1 read 64 bytes(which is essentially one ``movntdqa'') from memory followed by 3 ``movntdqa'' 16 bytes read from cache, will not be significantly longer than 1 read of 64 bytes from memory, since cache access speed is significantly faster than memory access.\\
+One other overhead we did not take into consideration is virtual address translation time. We did not figure a good we to measure and subtract that from our result. We believe that would be the main cause of error in our result.\\
+It is reasonable to see how standard deviation bump up when cache boundary is reached. Also, the bump of standard deviation when array size is small indicate that, when reading very small data, the function is more vulnerable to disturbance of other processes and cpu scheduling in the system.\\
+
+\subsection{Page fault service time}
+A page fault occurs when the OS tries to fetch a page that was swapped out from the physical memory, and thereby it needs a further fetch from the disk. Measuring the page fault service time means measuring the time interval between a page fault occurance and loading the page from the disk.
+\subsubsection{Experiment Methodology}
+One neat way to conduct the measurement is to use mmap (memory mapped files). The mmap function is a system call that directly maps a file to the virtual memory space of the calling process.Upon mapping, the actual data won\'t be copied into main memory until accessed by the process. This is because the mmap approach is using lazy loading, which makes it perfect for our measurement of a page fault service time. 
+
+The experiment is devided into two steps; first part is to prove that a page fault occurces when sequentially accessing the file; second part is to calculate the average service time during a page fault.
+Both of the experiments are run against a dummy file we created with the same repeated letters, size 400KB. The page size of the system is 4KB, which is got from a sysconf system call.
+
+In the first experiment, since the mmap returns a pointer to the starting address where the file is mapped in the virtual memory, we iterate the pointer through all letters in the file, that is we are accessing one byte at a time. Since the file is loaded into the physical memory page by page, this would force a page fault accessing the file every 4KB (size of one page in the system). We decide to do a backward scan on moving the pointer in case of a potential read-ahead.
+
+In the second experiment, we set the scan stride to be 4KB. This forces a page fault every byte of access in that mmap loads the file from disk to physical memory page by page, thus gives us a measurable results to calculate the average. 
+We iterate 10,000 times mmap-ing and munmap-ing the file, and access a byte every 4KB to the file. Since the size of the file is 400KB, this gives us 1,000,000 samples. 
+One thing to notice is that to repeat the measurement,  the file may be kept in the file system buffer cache. Therefore, the buffer cache should be flushed out during each iteration to get an accurate result.
+
+\subsubsection{Prediction}
+Each page fault implies loading 4KB from the disk, which should spend much longer than directlly accessing physical memory. We estimate this process to around This should take from 8 to 10 ms on the bare hardware. The software overhead may add 1ms. 
+See table~\ref{table:pagefault} for data.
+
+\subsubsection{Experiment Results}
+
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=.45]{pagefault_sequential.png}
+\caption{Sequential Access mmap file}
+\label{fig:pagefault_sequential}
+\end{figure}
+
+\begin{table}
+	\begin{center}
+  \caption{Context switching overhead performance (in cycles)}
+  \begin{tabular}{|l|l|l|l|l|l|}
+    \hline
+    Operation             & Hardware Est.         & Software Est.         & Prediction            & Mean        & Std. Deviation       \\ \hline
+    mmap file accessing   & 10ms                  & 1ms                   & 11ms                  & 7.4ms       & 1.1 ms               \\ \hline
+  \end{tabular}
+\label{table:pagefault}
+\end{center}
+\end{table}
+
+See table~\ref{fig:pagefault_sequential} for first part of the experiment.\\
+See table~\ref{table:pagefault} for second part of the experiment.
+
+
+\subsubsection{Result Discussion}
+
+Dividing the result by the size of a page, which is 4KB, we get an average of 1.9ms accessing a single byte by a page fault. This is 40,000 times as big as the The latency of accessing a byte from main memory.
+
+%============================= section ==========================%
+\section{Network}
+%----------------------------- subsection --------------------------%
+\subsection{Round Trip Time}
+\subsubsection{Experiment Methodology}
+Round trip time measures the time spend for a established tcp connection to send one packet and receive an acknowledgement of that packet. AKA, the time for the packet to do a "round trip".\\
+In order to measure it, we used c language server-client flavored socket program to establish connection, transmit and measure time. We measure the time it took on a established connection for one sigle write of one byte of data, and one single read of one byte of data implemented using the write() and read() function on an established socket connection. We measured one packet roundtrip time on a established link for 100/1000/10000/100000 times to observer different roundtrip time. Then we break that connection, repeat the experiment for 100/10 times, to get a mean and standard deviation. The number of experiments we did is based on the stability of the measured data. When standard deviation is small enough, we consider the data is stable enough.\\
+Since round trip time depends heavily on the internet connection environment between the server and client, we will describe our network environment in the next part. \\
+In terms of ICMP, we also used c socket to perform ping operation. We meaure the time between sending and receiving the ICMP packets, repeat this for 1000 times for each experiment, and repeat the experiment for 100 times just like the roundtrip experiment. \\
+\subsubsection{Experiment Setup and Prediction}
+Since complex network routing will significantly affect the stability of experiment, we used direct cable connection for our experiment. \\
+The specification of the other machine used here is give in form \\ %TODO: add the spec form here
+
+
+\subsubsection{Experiment Results}
+\subsubsection{Result Discussion}
+
+%----------------------------- subsection --------------------------%
+\subsection{Peak Bandwidth}
+\subsubsection{Experiment Methodology}
+The prerequisite to measure the peak bandwidth of one machine is that, the other machine which recevives the data, and the network between them, has to be capable of transfering data faster than the peack bandwidth of the NIC of that particular machine. In order to satifiy this precondition, we first chose another machine which is labled to have a better hardware performance, then measure the bandiwdth between them, and the bandwidth between the better machine with an even better machine, to make sure that it is not the bottle-neck of the peak bandwidth of the target machine. In order to rule out the bottle-neck of router, we used direct cable connection.\\
+In terms of implementation, we test the bandwidth by sending data over TCP. For each test, we send 10MB of data and measure the time used to send it, then calculate the bandwidth. Each test is repeated 100 times, each experiment is repeated 100 times.\\
+\subsubsection{Prediction}
+\subsubsection{Experiment Results}
+\subsubsection{Result Discussion}
+
+%----------------------------- subsection --------------------------%
+\subsection{Connection Overhead}
+\subsubsection{Experiment Methodology}
+To measure connection overhead of TCP protocol, we did not count the time to obtain a local socket as the overhead, we only measure the time used to establish the connection.
+\subsubsection{Prediction}
+\subsubsection{Experiment Results}
+\subsubsection{Result Discussion}
+
+
+%============================= section ==========================%
+\section{File System}
+
+%----------------------------- subsection --------------------------%
+\subsection{Size of cache}
+\subsubsection{Experiment Methodology}
+In order to estimate the size of the file cache, we created a variety of files with sizes ranging from 50MB to 2GB. With each different file, we measured the time it took to read the file over an average of 10 times per file. This idea behind the methodology comes from the idea that attempting to read within a file that fits within a cache will have relatively the same read time. However, as soon as we have a file whose size is larger than the cache size and we try to access a part of the file outside of the cache, the read time will be much larger. Therefore, we attempted to read from a variety of file sizes in order to capture the size at which the large read time occurs. The large jump in read time will indicate to us the size of the file cache of the system. 
+
+\subsubsection{Prediction}
+We can safely say that the size of the cache will be smaller than main memory, which is 2GB. Since the OS will take a large portion of the main memory for file system cache, we predict that the file cache size will be less than half of the size of main memory, <1GB. 
+
+\subsubsection{Experiment Results}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=.6]{file_cache_size.png}
+\caption{Left x-axis is the size of file and y-axis is average read time. Both are on log scale.}
+\label{fig:file_cache_size}
+\end{figure}
+
+The results can be found in figure~\ref{fig:file_cache_size}.
+
+\subsubsection{Result Discussion}
+The results show that there is a small increase in read time at 200KB. From there, we have a very small increase in read time until 776MB (2\textsuperscript{19.6} KB). The read time then begins to level out again towards the end after 1.5GB (2\textsuperscript{20.6} KB). This indicates to us that the file cache size is a little larger than 776MB. We are able to deduce this from the relationship between file cache hits and the size of the file. If the file is able to fit within the cache, then we will be reading from caches and thus have a relatively stable reading time for all files of sizes that fit within the cache. Those files that are too large to fit in the cache, however, will cause cache misses and thus longer time to fetch from outside of the cache. This increase in time can be seen at around 776MB, which indicates to us that this is the relative size of the file cache. 
+
+Overall, our methodology was successful in helping us attain the information we required. However, to pinpoint the size of the cache more clearly, future experiments will benefit form decreasing the rate in which we are increasing the file sizes. As vague as our estimates may have been, our estimates were accurate relative to the information attained from the experiment. The experiment does, however, give us a fairly loose range from which we can expect our cache size to be.
+
+\subsection{File read time}
+
+\subsubsection{Experiment Methodology}
+The basis of our experiment is to perform both sequential and random reads from files of different sizes, which we made to range from 8KB to 200MG. The purpose of this experiment was to compare and contrast the read time for sequential and random reads. In order to do so, we needed to use a raw device to ensure that we were not measuring cached data. As a point of clarification, a raw device is a special block device file that bypasses the OS's caches and buffers. However, raw devices were deprecated on Linux systems, therefore we alternatively used the \texttt{O\_DIRECT} and \texttt{O\_SYNC} flags associated with the \texttt{open()} system call. The \texttt{O\_DIRECT} flag ensures that the file is not brought into the file buffer cache, and every read goes to the disk. The \texttt{O\_SYNC} flag ensures that the reads were performed synchronously. 
+We also verified that the file is not brought into the cache by observing the output of the \texttt{vmstat} command in linux. For reading sequential blocks, we simply used read() and put time markers for benchmarking around the read commands for reading an entire file. The random reads were harder to perform because we had to indicate where to fetch the next block. In order to do so, we used lseek() along with read(). The overall methodology for benchmarking random file accesses was the same as sequential accesses except for the need to use lseek() to indicate the amount to bytes to offset before starting the read. All reads for different file sizes were done 100 times and the average was taken per block.
+
+\subsubsection{Prediction}
+We expected the time for random read to be much larger than the time for sequential read. Sequential reads can benefit from locality and pre-fetching to a greater extent than random reads will be able to. Therefore unless the order in which random reads were made was almost the same as sequential reads, then random reads should be significantly larger than sequential reads. We also suspect that the read time for sequential reads to have a downward trend at some point as a result of benefiting from reading blocks that are sequential. We predicted that the hardware would take about 6600 ns, which is the hardware's average latency and track to track seek time. For random access time, we added the average seek read time to this for a total of 20600 ns of estimated hardware time.The software for both was simply an estimated time that it would take for the command to propagate to the hardware.
+
+\subsubsection{Experiment Results}
+
+The results can be found in figure~\ref{fig:file_read_times}.
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[scale=.6]{file_read_times.png}
+\caption{Left x-axis is the size of file and y-axis is average read time per block. Both are on log scale.}
+\label{fig:file_read_times}
+\end{figure}
+
+
+\subsubsection{Result Discussion}
+We will now consider the results of the experiment as it currently stands. For the sequential read, we see that there is a slight decreasing trend initially. This was what we had anticipated in our estimations where we see that the sequential reads are taking advantage locality and pre-fetching. However, we don't see the same pattern in random reads because of the randomness with which we area accessing the files' data. We see a slight increase in both sequential and random file reading at around 2\textsuperscript{9.6}KB and an even more drastic increase in time at 2\textsuperscript{19.6}KB. The larger increase is due to files exceeding the size of the file cache, which we did not take into account in our estimation. This increase is more drastic for random reads because we are essentially making random reads from disk. This means that there will be extra time needed to find the different blocks on disk. Compared to sequential read which doesn't require jumping around to seek on the disk, there is a larger increase in read time for random reads once the file exceeds cache size.
+
+Our methodology was successful overall as we can see the difference in time needed to make sequential and random read from different sized files. However, there is room for improvement. Had we ran the benchmarking for read times with a larger upper bound, we can expect to see when the read time for random reads will begin to plateau. This is the point in which the read time for a block will be dominated mostly by random read time from disk. Because we are measuring the average read over 100 iterations, we decided to end the testing prematurely due to time constraints. 
+
+Sequential access may not be sequential if given enough time or if trying to access a large file. Even though the system attempts to place related blocks in approximately the same area or sequentially, this effort may prove to be more difficult when there is not enough room to place blocks sequentially. In such a case, the blocks will be placed within some distance from its previous block. If the file is large enough, this non-sequential placement of blocks could result in high levels of fragmentation and be less sequential.
+
+\subsection{Remote file read time}
+
+\subsubsection{Experiment Methodology}
+\subsubsection{Prediction}
+\subsubsection{Experiment Results}
+\subsubsection{Result Discussion}
+
+\subsection{Contention}
+
+\subsubsection{Experiment Methodology}
+\subsubsection{Prediction}
+\subsubsection{Experiment Results}
+\subsubsection{Result Discussion}
+
+
+\section{Time Consumption}
 \subsubsection{CPU, Scheduling, and OS Services}
-Boyuan Qin:\\
-Dexin Qi: 22+ hours\\
-Qiheng Wang:\\
+Boyuan Qin: 16 + hours\\
+Dexin Qi: 16+ hours\\
+Qiheng Wang:16 + hours
+\subsubsection{Memory}
+Boyuan Qin: 16 + hours\\
+Dexin Qi: 16 + hours\\
+Qiheng Wang:16 + hours
+\subsubsection{Network}
+Dexin Qi: 20 + hours 
+\subsubsection{File System}
+Boyuan Qin: 20 + hours\\
+Qiheng Wang: 
+
+
+\section{Complete Overview}
+
+\begin{table}[!htbp]
+  \caption{Overhead Operation Performance}
+  \begin{tabular}{|l|l|l|l|l|l|}
+    \hline
+    Operation              & Hardware Est.         & Software Est.         & Prediction            & Mean     \\ \hline
+    \texttt{getticks}      & 8.3 ns                & 2.1 ns                & 10.4 ns               & 18.5 ns\\ \hline
+    \texttt{elapsed}       & 10.4 ns               & 2.1 ns                & 12.5 ns               & 14.4 ns\\ \hline
+    \texttt{for} loop      & 1.2 ns                & 0.8 ns                & 2.0 ns                & 2.8 ns\\ \hline
+    System Call            & 4 ns                  & 3 ns                  & 7 ns                  & 96.94 ns\\ \hline
+    Create Process         & 100 ns                & 100 ns                & 200 ns                & 11.75 ms\\ \hline
+    Create Kernel Process  & 90 ns                 & 90 ns                 & 180 ns                & 28.53 ns\\ \hline
+    Process Switch         & \textless50000 ns     & \textless20000 ns     & \textless70000 ns     & 0.1 mns\\ \hline
+    Kernel Thread Switch   & \textless10000 ns     & \textless10000 ns     & \textless20000 ns     & 88.06 ns\\ \hline
+  \end{tabular}
+\label{table:overview_overhead}
+\end{table}
+
+\begin{table}[!htbp]
+  \caption{Memory Operation Performance}
+  \begin{tabular}{|l|l|l|l|l|l|}
+    \hline
+    Operation               & Hardware Est.         & Software Est.         & Prediction            & Mean     \\ \hline
+    L1 RAM Access           & 1.6 ns                & 0 ns                  & 1.6 ns                & 3 ns\\ \hline
+    L2 RAM Access           & 3.2 ns                & 0 ns                  & 3.2 ns                & 25 ns\\ \hline
+    Main Memory RAM Access  & 32 ns                 & 0 ns                  & 32 ns                 & 275 ns\\ \hline
+    Read RAM Bandwidth      & ns                    & ns                    & ns                    & ns\\ \hline
+    Write RAM Bandwidth     & ns                    & ns                    & ns                    & ns\\ \hline
+    Page Fault Service Time & 10 ms                 & 1 ms                  & 11 ms                 & 7.4 ms\\ \hline
+  \end{tabular}
+\label{table:overview_memory}
+\end{table}
+
+\begin{table}[!htbp]
+  \caption{Network Performance}
+  \begin{tabular}{|l|l|l|l|l|l|}
+    \hline
+    Operation               & Hardware Est.         & Software Est.         & Prediction            & Mean     \\ \hline
+    ?????????????           & ns                    & ns                    & ns                    & ns\\ \hline
+  \end{tabular}
+\label{table:overview_network}
+\end{table}
+
+\begin{table}[!htbp]
+  \caption{File System Performance}
+  \begin{tabular}{|l|l|l|l|l|l|}
+    \hline
+    Operation               & Hardware Est.         & Software Est.         & Prediction            & Mean     \\ \hline
+    File Cache Size         & \textless2GB          & n/a                   & \textless2GB          & 2\textsuperscript{19.6} to 2\textsuperscript{20.6}MB (about 1.13GB)\\ \hline
+    Sequential Read Time    & 6600 ns               & 5 ns                  & 6605 ns               & 175125 ns\\ \hline
+    Random Read Time        & 20600 ns              & 5 ns                  & 20605 ns              & 562180968 ns\\ \hline
+    Remote Read Time        & ns                    & ns                    & ns                    & ns\\ \hline
+    Remote Write Time       & ns                    & ns                    & ns                    & ns\\ \hline
+    Contention              & ns                    & ns                    & ns                    & ns\\ \hline
+  \end{tabular}
+\label{table:overview_file}
+\end{table}
 
 %-----------------------------------------------------------------------------
 % BIBLIOGRAPHY
@@ -510,6 +824,12 @@ Qiheng Wang:\\
 \bibitem{}http://jahanzebnotes.blogspot.com/2013/02/turn-off-cpu-throttling-ubuntu.html
 \bibitem{}http://www.seagate.com/staticfiles/support/disc/manuals/notebook/momentus/5400.6\%20(Wyatt)/100528359e.pdf
 \bibitem{}http://www.cpuid.com/softwares/cpu-z.html
+\bibitem{}Larry McVoy and Carl Staelin. 1996. lmbench: portable tools for performance analysis. In Proceedings of the 1996 annual conference on USENIX Annual Technical Conference (ATEC '96). USENIX Association, Berkeley, CA, USA, 23-23.
+\bibitem{}http://codearcana.com/posts/2013/05/18/achieving-maximum-memory-bandwidth.html
+\bibitem{}http://www.nasm.us/doc/nasmdoc6.html
+\bibitem{}http://zsmith.co/bandwidth.html
+\bibitem{}http://www.sisoftware.net/?d=qa\&f=ben\_mem\_latency
+\bibitem{}http://www.bitmover.com/lmbench/
 
 \end{thebibliography}
 
