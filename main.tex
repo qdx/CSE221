@@ -36,6 +36,7 @@
 
 \maketitle
 
+%============================= section ==========================%
 \section{Introduction}
 The goal of this project is to measure the performance of the operating
 system, Ubuntu 12.04.4 LTS\@.  The reason behind this goal is to gain an
@@ -48,30 +49,13 @@ gauging our intuition about the performance of the operating system we are
 testing.  The information we will obtain from these experiments will also be
 used in future endeavors as a set of performance results to compare against.
 
-The language of choice in these tests will be C++.  The reason for choosing
-C++ comes from the flexibility that C++ provides.  It is a high-level language
-that allows us to, at the same time, work without much overhead as, for
-example, Java when measuring time.  The compiler we are using is GCC
-4.6.3-1ubuntu5 with no optimization.
-
-The first part of the project required around 20 hours of work to complete. This included creating the tools necessary to measure the operating system and writing the report.
-
-The experiments were split accordingly:
-
-Measurement Overhead - Boyuan
-
-Procedure Call Overhead - Dexin
-
-System Call Overhead - Boyuan/Qiheng
-
-Task Creation Time - Dexin
-
-Context Switch Time - Boyuan/Qiheng
+The language of choice in these tests will be C/C++/Assembly.  The reason for choosing
+C/C++ comes from the flexibility that C/C++ provides. It is a high-level language that allows us to, at the same time, work without much overhead as, for example, Java when measuring time. While assembly could provide more fine tuned experiments which can avoid being twisted by compiler. The compiler we are using is GCC 4.6.3-1ubuntu5.
 
 %============================= section ==========================%
 \section{Machine Description}
 
-The machine we used as the subject of our experiments is described in Table 1.
+The machine we measured is the Samsung R710 Laptop bought in October 2008. Its specifications are described in Table 1.\\
 
 \begin{table}[h]
   \caption{Machine Specifications}
@@ -79,35 +63,35 @@ The machine we used as the subject of our experiments is described in Table 1.
     \resizebox{\columnwidth}{!}{
       \begin{tabular}{|>{\centering\arraybackslash\bfseries}m{1in}|l|l|}
         \hline
-        \multirow{8}{*}{Processor}          & Model                    & Intel\textregistered Core\texttrademark 2 Duo Processor P8600  \\ \cline{2-3}
-        & Instruction Set                   & 64 bit                                                         \\ \cline{2-3}
-        & Cycle Time                        & 0.417ns(2.4GHz frequency)                                      \\ \cline{2-3}
-        & L1 data cache                     & 32KB per core, 8-way set associative, 64-byte line size        \\ \cline{2-3}
-        & L1 instruction cache              & 32KB per, core 8-way set associative, 64-byte line size        \\ \cline{2-3}
-        & L2 data cache                     & 3072KB, 12-way set associative, 64-byte line size              \\ \cline{2-3}
-        & FSB                               & 1066 MHz                                                       \\
+        \multirow{8}{*}{Processor}       & Model                                 & Intel\textregistered Core\texttrademark 2 Duo Processor P8600  \\ \cline{2-3}
+                                         & Instruction Set                       & 64 bit                                                         \\ \cline{2-3}
+                                         & Cycle Time                            & 0.417ns(2.4GHz frequency)                                      \\ \cline{2-3}
+                                         & L1 data cache                         & 32KB per core, 8-way set associative, 64-byte line size        \\ \cline{2-3}
+                                         & L1 instruction cache                  & 32KB per, core 8-way set associative, 64-byte line size        \\ \cline{2-3}
+                                         & L2 data cache                         & 3072KB, 12-way set associative, 64-byte line size              \\ \cline{2-3}
+                                         & FSB                                   & 1066 MHz                                                       \\
         \hline
-        \multirow{11}{*}{Hard Drive}        & Model                    & Seagate Momentus\textregistered  5400.6 SATA model ST9500325AS \\ \cline{2-3}
-        & Capacity                          & 500GB                                                          \\ \cline{2-3}
-        & Cache                             & 8 Mbytes                                                       \\ \cline{2-3}
-        & RPM                               & 5400                                                           \\ \cline{2-3}
-        & Physical heads                    & 4                                                              \\ \cline{2-3}
-        & Discs                             & 2                                                              \\ \cline{2-3}
-        & Average Seek Read                 & 14ms typical                                                   \\ \cline{2-3}
-        & Full Stroke Seek                  & 30ms                                                           \\ \cline{2-3}
-        & Average Latency                   & 5.6ms                                                          \\ \cline{2-3}
-        & Track to track seek time          & 1ms typical                                                    \\ \cline{2-3}
-        & I/O data transfer rate            & 300 Mbytes/s max                                               \\
+        \multirow{11}{*}{Hard Drive}     & Model                                 & Seagate Momentus\textregistered  5400.6 SATA model ST9500325AS \\ \cline{2-3}
+                                         & Capacity                              & 500GB                                                          \\ \cline{2-3}
+                                         & Cache                                 & 8 Mbytes                                                       \\ \cline{2-3}
+                                         & RPM                                   & 5400                                                           \\ \cline{2-3}
+                                         & Physical heads                        & 4                                                              \\ \cline{2-3}
+                                         & Discs                                 & 2                                                              \\ \cline{2-3}
+                                         & Average Seek Read                     & 14ms typical                                                   \\ \cline{2-3}
+                                         & Full Stroke Seek                      & 30ms                                                           \\ \cline{2-3}
+                                         & Average Latency                       & 5.6ms                                                          \\ \cline{2-3}
+                                         & Track to track seek time              & 1ms typical                                                    \\ \cline{2-3}
+                                         & I/O data transfer rate                & 300 Mbytes/s max                                               \\
         \hline
-        \multirow{3}{*}{Memory}             & Capacity                 & Dual channel(symetric), each 1024 MBytes                       \\ \cline{2-3}
-        & Frequency                & DDR3 PC3-10700 667 MHz                                         \\ \cline{2-3}
-        & Width                    & 64 bit per channel                                             \\
+        \multirow{3}{*}{Memory}          & Capacity                              & Dual channel(symetric), each 1024 MBytes                       \\ \cline{2-3}
+                                         & Frequency                             & DDR3 PC3-10700 667 MHz                                         \\ \cline{2-3}
+                                         & Width                                 & 64 bit per channel                                             \\
         \hline
-        \multirow{2}{*}{Network Card}       & Model                    & Intel Wifi Link 5100                                           \\ \cline{2-3}
-        & Data Transfer Rate       & 10/100/1000Mbps \\
+        \multirow{2}{*}{Network Card}    & Model                                 & marvell yukon 88e8055                                          \\ \cline{2-3}
+                                         & Data Transfer Rate                    & 10/100/1000Mbps                                                \\
         \hline
-        \multicolumn{1}{|>{\bfseries}c|}{\multirow{2}{*}{OS}}   & \multirow{2}{*}{ Linux Distribution }       & Ubuntu 12.04.4 LTS               \\
-        & \multicolumn{1}{c|}{}                       & GNU/Linux 3.8.0-35-generic i686 \\
+        \multicolumn{1}{|>{\bfseries}c|}{\multirow{2}{*}{OS}} & \multirow{2}{*}{ Linux Distribution } & Ubuntu 12.04.4 LTS                        \\
+                                                              & \multicolumn{1}{c|}{}                 & GNU/Linux 3.8.0-35-generic i686           \\
   % here if use |c| instead of c|, will generate an extra vertical line
         \hline
       \end{tabular}
@@ -119,6 +103,7 @@ The machine we used as the subject of our experiments is described in Table 1.
 %-----------------------------------------------------------------------------
 % Milestone 1: CPU, Scheduling, and OS Services
 %-----------------------------------------------------------------------------
+%============================= section ==========================%
 \section{CPU, Scheduling, and OS Services}
 
 To accomplish following set of measurements, testing against a normally
@@ -499,6 +484,7 @@ orders without much complexity, and it's more trackable to debug.
 % Milestone 2: Memory
 %-----------------------------------------------------------------------------
 
+%============================= section ==========================%
 \section{Memory}
 \subsection{RAM access time}
 \subsubsection{Experiment Methodology}
@@ -523,49 +509,51 @@ An unexpected result was the small dip found in the 128KB region. This may be a 
 
 \subsection{RAM bandwidth}
 \subsubsection{Experiment Methodology}
-In order to measure the bandwidth of memory, we allocate different size of array in memory, then read the whole array sequentially and measure how fast we can read. \\
-On this particular measurement, we implemented our experiment both in c and assembly. We used nasm as the assembler, with the following compiling command:\\
+In order to measure the bandwidth of memory, we allocate different size of array in memory, then read and write the whole array with a stride of 64 bytes, which is our cache line size, and measure how fast we can read. \\
+On this particular measurement, we implemented our experiment both in c and assembly. We implemented repeating memory read and write as assembly functions, and used c as a framework to piece the assembly functions together to record the data. We used nasm as the assembler, with the following compiling command:\\
 
 nasm -f elf <source.asm> -o <target.o> \\
 gcc -funroll-loops -m32 -mtune=pentium <target.o> <source.c> -g -lm -o <target>\\
 
-We have the assembly function read the array 100 times consecutively, then free the array and recall the assembly function. We repeatedly call the assembly function 100 times. Thus, we read the array for 10000 times in one experiment. We output the mean time it takes to read the array. Then we execute the experiment 100 times, get the mean value and standard deviation of these experiments. In this process, we've already subtract the getticks overhead from our experiment result\\
-In order to avoid our read being cached, we used the Intel SSE4 streaming load assembly operation ``movntdqa'', which read 16 bytes of data in one operation.\\
+We have the assembly function read the array 100 times consecutively, then free the array and recall the assembly function. We repeatedly call the assembly function 100 times. Thus, we read the array for 10000 times in one experiment. We output the mean time it takes to read the array. Then we repeat the experiment 10 times, get a stable mean value and standard deviation of these experiments. In this process, we've already subtracted the getticks overhead from our experiment result. Then we did the same experiment for memory write operation.\\
+In order to avoid our read being cached, we used the Intel SSE4 streaming load assembly operation ``movntdqa'', which claims to read 16 bytes of data in one operation, skipping caching hierarchy.\\
 
 \subsubsection{Prediction}
 According to our hardware specification, our maximum memory bandwidth should be:\\
 $$ 667000000 * 2 * 64 / 8 = 10.672GB/s $$
 Thus, we predict that our memory read bandwidth will be less than this value.\\
+However, in case where cache is used, this will not be a good guess. With cache, the bandwidth can be much much higher than the theoretical memory bandwidth, since cache access speed can be orders of magnitude faster than main memory. We chose SSE4 with that in mind, and try to avoid it.\\
+We also predict that memory write bandwidth would be slower than read bandwidth, since there are more extra work to do for operating system than reading.\\
 
 \subsubsection{Experiment Results}
-Our results are shown in Figure \ref{fig:ram_bw}. and Table \ref{table:mem_bw} \\
+Our results are shown in Figure \ref{fig:ram_bw}, and Table \ref{table:mem_bw} \\
 
 \begin{table}
   \begin{center}
-    \caption{Memory read bandwidth(100 experiments)}
-    \begin{tabular}{|l|l|l|}
+    \caption{Memory read bandwidth(100 experiments)(note that the bandwidth larger than theoretical maximum will be explained in next section)}
+    \begin{tabular}{|l|l|l|l|l|}
       \hline
-      Read size& Bandwidth(MB)& standard deviation \\  \hline
-      128B  & 30246.5123374 & 2463.99759062 \\  \hline
-      256B  & 32385.0898914 & 985.005918514 \\  \hline
-      512B  & 32962.138536  & 334.818111688 \\  \hline
-      1KB   & 34406.4881076 & 1022.40808475 \\  \hline
-      2KB   & 35220.0924862 & 851.44763812 \\  \hline
-      4KB   & 35485.9973028 & 1013.02041157 \\  \hline
-      8KB   & 35939.0685171 & 907.868248426 \\  \hline
-      16KB  & 35574.1324265 & 1718.20388877 \\  \hline
-      32KB  & 31544.0219404 & 1407.52979557 \\  \hline
-      64KB  & 16172.9533499 & 744.0446469 \\  \hline
-      128KB & 16450.7229957 & 270.207782424 \\  \hline
-      256KB & 16519.9494    & 55.4321995455 \\  \hline
-      512KB & 16525.8607228 & 60.234820764 \\  \hline
-      1MB   & 16494.4736645 & 124.302969813 \\  \hline
-      2MB   & 13618.2029798 & 1008.70403144 \\  \hline
-      4MB   & 6114.52143216 & 126.829869046 \\  \hline
-      8MB   & 5322.41277172 & 29.9100826471 \\  \hline
-      16MB  & 5316.23314084 & 27.867507391 \\  \hline
-      32MB  & 5314.78016467 & 37.4761378191 \\  \hline
-      64MB  & 5311.64655261 & 55.3834994529 \\  \hline
+      Read size   & Read Bandwidth(MB/s) & Read Std deviation & Write Bandwidth(MB/s) & Write Std deviation \\ \hline
+      128B        & 82877.6275931        & 138.756108952      & 63510.9140232         & 21332.758409        \\ \hline
+      256B        & 58203.8645379        & 18.077260397       & 83370.3221002         & 16688.8326443       \\ \hline
+      512B        & 84680.7004147        & 37.1344832832      & 91015.9836298         & 8204.6841546        \\ \hline
+      1KB         & 118596.488159        & 4448.09137085      & 90154.1040324         & 10747.1791029       \\ \hline
+      2KB         & 131887.820751        & 125.361002649      & 96791.8864987         & 34.141795185        \\ \hline
+      4KB         & 127782.200151        & 13634.5440191      & 93483.5398672         & 7359.43759536       \\ \hline
+      8KB         & 141376.726491        & 2376.56603179      & 96269.3441776         & 1723.81340114       \\ \hline
+      16KB        & 135623.658387        & 1657.95149951      & 129375.416649         & 3917.06137859       \\ \hline
+      32KB        & 103241.630457        & 1749.79398914      & 106635.517589         & 1664.03160626       \\ \hline
+      64KB        & 29339.5731386        & 252.757947951      & 14794.8984809         & 42.9056993923       \\ \hline
+      128KB       & 29605.2150849        & 97.1859818669      & 15055.5027172         & 49.7087655775       \\ \hline
+      256KB       & 29889.2887814        & 87.4971284782      & 15083.895086          & 63.2402781397       \\ \hline
+      512KB       & 29994.1560773        & 88.8630251946      & 15085.1267137         & 44.5793993099       \\ \hline
+      1MB         & 29620.6738502        & 1003.58594801      & 15076.8142427         & 43.0446913139       \\ \hline
+      2MB         & 22766.1236277        & 2737.16050128      & 12682.8443067         & 1861.40116882       \\ \hline
+      4MB         & 6289.0487096         & 82.0998898472      & 2465.6766035          & 107.355250748       \\ \hline
+      8MB         & 5432.4525749         & 149.896863299      & 2032.3571343          & 8.47702555378       \\ \hline
+      16MB        & 5478.9018851         & 24.9918155661      & 2022.4700689          & 8.38293586944       \\ \hline
+      32MB        & 5488.0249203         & 18.6041543511      & 2017.1904064          & 8.07114584736       \\ \hline
+      64MB        & 5473.0265441         & 29.7586307672      & 2012.1484931          & 10.3703258606       \\ \hline
     \end{tabular}
     \label{table:mem_bw}
   \end{center}
@@ -574,15 +562,16 @@ Our results are shown in Figure \ref{fig:ram_bw}. and Table \ref{table:mem_bw} \
 
 \begin{figure}[!htb]
   \centering
-  \includegraphics[scale=.5]{RAM_bw.eps}
-  \caption{Left y-axis is bandwidth, right y-axis is std/mean, x-axis is the size of memory read}
+  \includegraphics[scale=.4]{RAM_bw.eps}
+  \caption{Memory Read and Write bandwidth}
   \label{fig:ram_bw}
 \end{figure}
 
 \subsubsection{Result Discussion}
-First of all, from the graph we can clearly see that it is obvious ``movntdqa'' operation did not bypass cache at all. The drop in 32KB size and 3MB size are due to the L1 cache and L2 cache which has exactly the corresponding size. Despite the fact we did not by pass cache, we still believe the memory bandwidth we measured when reading data that has a size over 4MB is a reasonably good approximate of the actual memory bandwidth, which is about 5.3GB/s.\\
-There are several reason that this value is a reasonable approximate: First, since are array size is large enough, every time we repeat the reading the array, the array data will not be in cache any more, cpu will need to get them from memory anyway. Second, although we are aware that cpu will read one whole cache line(64bytes) at a time, we think that, the time of 1 read 64 bytes(which is essentially one ``movntdqa'') from memory followed by 3 ``movntdqa'' 16 bytes read from cache, will not be significantly longer than 1 read of 64 bytes from memory, since cache access speed is significantly faster than memory access.\\
+First of all, from the graph we can clearly see that it is obvious ``movntdqa'' operation did not bypass cache at all. The drop in 32KB size and 3MB size are due to the L1 cache and L2 cache which has exactly the corresponding size. Despite the fact we did not by pass cache, we still believe the memory bandwidth we measured when reading data that has a size over 4MB is a reasonably good approximate of the actual memory bandwidth, which is about 5.5GB/s.\\
+There are several reason that this value is a reasonable approximate: First, since the array size is large enough, every time we repeat the reading the array, the array data will not be in cache any more, cpu will need to get them from memory anyway. Second, although we are aware that cpu will read one whole cache line(64bytes) at a time, we think that, the time of 1 read 64 bytes(which is essentially one ``movntdqa'') from memory followed by 3 ``movntdqa'' 16 bytes read from cache, will not be significantly longer than 1 read of 64 bytes from memory, since cache access speed is significantly faster than memory access.\\
 One other overhead we did not take into consideration is virtual address translation time. We did not figure a good we to measure and subtract that from our result. We believe that would be the main cause of error in our result.\\
+The other interesting fact is how memory write is slower than memory read. The hardware of cache and memory should not perform a significant different speed between read and write. Thus, we believe this phenomenon is caused by operating system overhead. When writing, the lock mechanism and extra book keeping work is more complicated than mere read, thus caused the bandwidth degradation.\\
 It is reasonable to see how standard deviation bump up when cache boundary is reached. Also, the bump of standard deviation when array size is small indicate that, when reading very small data, the function is more vulnerable to disturbance of other processes and cpu scheduling in the system.\\
 
 \subsection{Page fault service time}
@@ -734,7 +723,7 @@ Table \ref{table:tcp_overhead} showed the overhead for establishing and destroyi
 
 \subsubsection{Result Discussion}
 The result roughly matched our prediction very well. But one problem is that, from our previous experiments, we have a measured TCP RTT of about 0.50ms. While here, our TCP connection open overhead is just 0.25ms, which is half of TCP RTT. This is abnormal because the client have to wait at least for one round trip time to receive the SYN signal from server. After that, the client can send ACK asynchronously. Like what we have explained in the round trip section, we prefer to choose the minimum round trip time that we measured as the actual round trip time. If that is the case, the connection overhead we measured here matched the TCP handshake behavior.\\
-In terms of close operation, since linux treat loopback interface as a file, when closing connection with close, it is more likely to just close the file descriptor. Then the operating system handles the actual work of destroying the connection with the server. Quoting from Gnu c library manual online, ``If there is still data waiting to be transmitted over the connection, normally close tries to complete this transmission.''. Although it is said so in the manual, we observed some behavior which may indicate that the client did not actually tries to negotiate the closing of the connection with server at all. We found sometimes establishing a connection on the same port number after a previous experiment finished is not allowed by the system, saying that ``binding to socket failed: Address already in use''. In conclusion, no matter the operating system negotiated the closing of the connection with the server or not, it should have done it asynchronously, so that we cannot measure that behavior in our experiment. \\
+In terms of close operation, since linux treat loopback interface as a file, when closing connection with close, it is more likely to just close the file descriptor. Then the operating system handles the actual work of destroying the connection with the server. Quoting from Gnu c library manual online\cite{GNU}, ``If there is still data waiting to be transmitted over the connection, normally close tries to complete this transmission.''. Although it is said so in the manual, we observed some behavior which may indicate that the client did not actually tries to negotiate the closing of the connection with server at all. We found sometimes establishing a connection on the same port number after a previous experiment finished is not allowed by the system, saying that ``binding to socket failed: Address already in use''. In conclusion, no matter the operating system negotiated the closing of the connection with the server or not, it should have done it asynchronously, so that we cannot measure that behavior in our experiment. \\
 
 %============================= section ==========================%
 \section{File System}
@@ -805,27 +794,58 @@ Sequential access may not be sequential if given enough time or if trying to acc
 \subsubsection{Experiment Results}
 \subsubsection{Result Discussion}
 
-
-\section{Time Consumption}
+%============================= section ==========================%
+\section{Time Consumption and Partition of work}
 \subsubsection{CPU, Scheduling, and OS Services}
+The first part of the project required around 20 hours of work to complete. This included creating the tools necessary to measure the operating system and writing the report.\\
+The experiments were split accordingly:\\
+Measurement Overhead - Boyuan\\
+Procedure Call Overhead - Dexin\\
+System Call Overhead - Boyuan/Qiheng\\
+Task Creation Time - Dexin\\
+Context Switch Time - Boyuan/Qiheng\\
+
+The time we spent is:\\
 Boyuan Qin: 16 + hours\\
 Dexin Qi: 16+ hours\\
 Qiheng Wang:16 + hours
+
 \subsubsection{Memory}
+The experiments were split accordingly:\\
+RAM access time - Boyuan\\
+RAM bandwidth - Dexin\\
+Page fault service time - Qiheng\\
+
+The time we spent is:\\
 Boyuan Qin: 16 + hours\\
 Dexin Qi: 16 + hours\\
 Qiheng Wang:16 + hours
+
 \subsubsection{Network}
-Dexin Qi: 20 + hours 
+The experiments were split accordingly:\\
+Round trip time - Dexin\\
+Peak bandwidth - Dexin\\
+Connection overhead - Dexin\\
+
+The time we spent is:\\
+Dexin Qi: 30 + hours\\
 \subsubsection{File System}
+The experiments were split accordingly:\\
+Size of file cache - Boyuan\\
+File read time - Boyuan\\
+Remote file read time - Qiheng \\
+Contention - Qiheng\\
+
+The time we spent is:\\
 Boyuan Qin: 20 + hours\\
 Qiheng Wang: 
 
-
+%============================= section ==========================%
 \section{Complete Overview}
 
 \begin{table}[!htbp]
   \caption{Overhead Operation Performance}
+  \begin{center}
   \begin{tabular}{|l|l|l|l|l|l|}
     \hline
     Operation              & Hardware Est.         & Software Est.         & Prediction            & Mean     \\ \hline
@@ -838,6 +858,7 @@ Qiheng Wang:
     Process Switch         & \textless50000 ns     & \textless20000 ns     & \textless70000 ns     & 0.1 mns\\ \hline
     Kernel Thread Switch   & \textless10000 ns     & \textless10000 ns     & \textless20000 ns     & 88.06 ns\\ \hline
   \end{tabular}
+  \end{center}
   \label{table:overview_overhead}
 \end{table}
 
@@ -845,24 +866,35 @@ Qiheng Wang:
   \caption{Memory Operation Performance}
   \begin{tabular}{|l|l|l|l|l|l|}
     \hline
-    Operation               & Hardware Est.         & Software Est.         & Prediction            & Mean     \\ \hline
-    L1 RAM Access           & 1.6 ns                & 0 ns                  & 1.6 ns                & 3 ns\\ \hline
-    L2 RAM Access           & 3.2 ns                & 0 ns                  & 3.2 ns                & 25 ns\\ \hline
-    Main Memory RAM Access  & 32 ns                 & 0 ns                  & 32 ns                 & 275 ns\\ \hline
-    Read RAM Bandwidth      & ns                    & ns                    & ns                    & ns\\ \hline
-    Write RAM Bandwidth     & ns                    & ns                    & ns                    & ns\\ \hline
-    Page Fault Service Time & 10 ms                 & 1 ms                  & 11 ms                 & 7.4 ms\\ \hline
+    Operation               & Hardware Est. & Software Est. & Prediction & Mean      \\ \hline
+    L1 RAM Access           & 1.6 ns        & 0 ns          & 1.6 ns     & 3 ns      \\ \hline
+    L2 RAM Access           & 3.2 ns        & 0 ns          & 3.2 ns     & 25 ns     \\ \hline
+    Main Memory RAM Access  & 32 ns         & 0 ns          & 32 ns      & 275 ns    \\ \hline
+    Read RAM Bandwidth      & 10.672GB/s    & -             & < 10GB/s   & 5480 MB/s \\ \hline
+    Write RAM Bandwidth     & 10.672GB/s    & -             & < 10GB/s   & 2020 MB/s \\ \hline
+    Page Fault Service Time & 10 ms         & 1 ms          & 11 ms      & 7.4 ms    \\ \hline
   \end{tabular}
   \label{table:overview_memory}
 \end{table}
 
 \begin{table}[!htbp]
   \caption{Network Performance}
+  \begin{center}
   \begin{tabular}{|l|l|l|l|l|l|}
     \hline
-    Operation               & Hardware Est.         & Software Est.         & Prediction            & Mean     \\ \hline
-    ?????????????           & ns                    & ns                    & ns                    & ns\\ \hline
+    Operation                              & Mean      \\ \hline
+    TCP remote RTT                         & 0.270ms   \\ \hline
+    TCP loopback RTT                       & 0.0462ms  \\ \hline
+    ICMP remote ping latency               & 0.227ms   \\ \hline
+    ICMP loopback ping latency             & 0.00918ms \\ \hline
+    TCP remote peak bandwidth              & 11.2MB/s  \\ \hline
+    TCP loopback peak bandwidth            & 191MB/s   \\ \hline
+    TCP remote open connection overhead    & 0.252ms   \\ \hline
+    TCP remote close connection overhead   & 0.00702ms \\ \hline
+    TCP loopback open connection overhead  & 0.0486ms  \\ \hline
+    TCP loopback close connection overhead & 0.0350ms  \\ \hline
   \end{tabular}
+  \end{center}
   \label{table:overview_network}
 \end{table}
 
@@ -881,6 +913,9 @@ Qiheng Wang:
   \label{table:overview_file}
 \end{table}
 
+
+\newpage
+\clearpage
 %============================= section ==========================%
 \section{Appendix}
 
@@ -917,6 +952,9 @@ Qiheng Wang:
 %-----------------------------------------------------------------------------
 % BIBLIOGRAPHY
 %-----------------------------------------------------------------------------
+\newpage
+\clearpage
+%============================= section ==========================%
 \begin{thebibliography}{1}
 
   \bibitem{FFTW} Cycle Counters. Available at {\tt http://www.fftw.org/download.html}.
@@ -934,7 +972,7 @@ Qiheng Wang:
   \bibitem{}http://www.tcpipguide.com/free/t\_TCPConnectionTermination-2.htm
   \bibitem{}http://www.tcpipguide.com/free/t\_TCPConnectionEstablishmentProcessTheThreeWayHandsh-3.htm
   \bibitem{}http://www.tcpipguide.com/free/t\_TCPOperationalOverviewandtheTCPFiniteStateMachineF-2.htm
-  \bibitem{}http://www.gnu.org/software/libc/manual/html\_node/Closing-a-Socket.html
+  \bibitem{GNU}http://www.gnu.org/software/libc/manual/html\_node/Closing-a-Socket.html
 
 \end{thebibliography}
 
