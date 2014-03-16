@@ -76,42 +76,42 @@ The machine we used as the subject of our experiments is described in Table 1.
 \begin{table}[h]
   \caption{Machine Specifications}
   \begin{center}
-  \resizebox{\columnwidth}{!}{
-  \begin{tabular}{|>{\centering\arraybackslash\bfseries}m{1in}|l|l|}
-	\hline
-	\multirow{8}{*}{Processor}          & Model                    & Intel\textregistered Core\texttrademark 2 Duo Processor P8600  \\ \cline{2-3}
-	& Instruction Set                   & 64 bit                                                         \\ \cline{2-3}
-	& Cycle Time                        & 0.417ns(2.4GHz frequency)                                      \\ \cline{2-3}
-	& L1 data cache                     & 32KB per core, 8-way set associative, 64-byte line size        \\ \cline{2-3}
-	& L1 instruction cache              & 32KB per, core 8-way set associative, 64-byte line size        \\ \cline{2-3}
-	& L2 data cache                     & 3072KB, 12-way set associative, 64-byte line size              \\ \cline{2-3}
-	& FSB                               & 1066 MHz                                                       \\
-	\hline
-	\multirow{11}{*}{Hard Drive}        & Model                    & Seagate Momentus\textregistered  5400.6 SATA model ST9500325AS \\ \cline{2-3}
-	& Capacity                          & 500GB                                                          \\ \cline{2-3}
-	& Cache                             & 8 Mbytes                                                       \\ \cline{2-3}
-	& RPM                               & 5400                                                           \\ \cline{2-3}
-	& Physical heads                    & 4                                                              \\ \cline{2-3}
-	& Discs                             & 2                                                              \\ \cline{2-3}
-	& Average Seek Read                 & 14ms typical                                                   \\ \cline{2-3}
-	& Full Stroke Seek                  & 30ms                                                           \\ \cline{2-3}
-	& Average Latency                   & 5.6ms                                                          \\ \cline{2-3}
-	& Track to track seek time          & 1ms typical                                                    \\ \cline{2-3}
-	& I/O data transfer rate            & 300 Mbytes/s max                                               \\
-	\hline
-	\multirow{3}{*}{Memory}             & Capacity                 & Dual channel(symetric), each 1024 MBytes                       \\ \cline{2-3}
-	                                    & Frequency                & DDR3 PC3-10700 667 MHz                                         \\ \cline{2-3}
-	                                    & Width                    & 64 bit per channel                                             \\
-	\hline
-	\multirow{2}{*}{Network Card}       & Model                    & Intel Wifi Link 5100                                           \\ \cline{2-3}
-	                                    & Data Transfer Rate       & 300Mbps                                                        \\
-	\hline
-	\multicolumn{1}{|>{\bfseries}c|}{\multirow{2}{*}{OS}}   & \multirow{2}{*}{ Linux Distribution }       & Ubuntu 12.04.4 LTS               \\
-	                                                        & \multicolumn{1}{c|}{}                       & GNU/Linux 3.8.0-35-generic i686 \\
-	% here if use |c| instead of c|, will generate an extra vertical line
-	\hline
-  \end{tabular}
-} % end of resizebox
+    \resizebox{\columnwidth}{!}{
+      \begin{tabular}{|>{\centering\arraybackslash\bfseries}m{1in}|l|l|}
+        \hline
+        \multirow{8}{*}{Processor}          & Model                    & Intel\textregistered Core\texttrademark 2 Duo Processor P8600  \\ \cline{2-3}
+        & Instruction Set                   & 64 bit                                                         \\ \cline{2-3}
+        & Cycle Time                        & 0.417ns(2.4GHz frequency)                                      \\ \cline{2-3}
+        & L1 data cache                     & 32KB per core, 8-way set associative, 64-byte line size        \\ \cline{2-3}
+        & L1 instruction cache              & 32KB per, core 8-way set associative, 64-byte line size        \\ \cline{2-3}
+        & L2 data cache                     & 3072KB, 12-way set associative, 64-byte line size              \\ \cline{2-3}
+        & FSB                               & 1066 MHz                                                       \\
+        \hline
+        \multirow{11}{*}{Hard Drive}        & Model                    & Seagate Momentus\textregistered  5400.6 SATA model ST9500325AS \\ \cline{2-3}
+        & Capacity                          & 500GB                                                          \\ \cline{2-3}
+        & Cache                             & 8 Mbytes                                                       \\ \cline{2-3}
+        & RPM                               & 5400                                                           \\ \cline{2-3}
+        & Physical heads                    & 4                                                              \\ \cline{2-3}
+        & Discs                             & 2                                                              \\ \cline{2-3}
+        & Average Seek Read                 & 14ms typical                                                   \\ \cline{2-3}
+        & Full Stroke Seek                  & 30ms                                                           \\ \cline{2-3}
+        & Average Latency                   & 5.6ms                                                          \\ \cline{2-3}
+        & Track to track seek time          & 1ms typical                                                    \\ \cline{2-3}
+        & I/O data transfer rate            & 300 Mbytes/s max                                               \\
+        \hline
+        \multirow{3}{*}{Memory}             & Capacity                 & Dual channel(symetric), each 1024 MBytes                       \\ \cline{2-3}
+        & Frequency                & DDR3 PC3-10700 667 MHz                                         \\ \cline{2-3}
+        & Width                    & 64 bit per channel                                             \\
+        \hline
+        \multirow{2}{*}{Network Card}       & Model                    & Intel Wifi Link 5100                                           \\ \cline{2-3}
+        & Data Transfer Rate       & 10/100/1000Mbps \\
+        \hline
+        \multicolumn{1}{|>{\bfseries}c|}{\multirow{2}{*}{OS}}   & \multirow{2}{*}{ Linux Distribution }       & Ubuntu 12.04.4 LTS               \\
+        & \multicolumn{1}{c|}{}                       & GNU/Linux 3.8.0-35-generic i686 \\
+  % here if use |c| instead of c|, will generate an extra vertical line
+        \hline
+      \end{tabular}
+    } % end of resizebox
   \end{center}
   \label{table:machine_description}
 \end{table}
@@ -199,7 +199,7 @@ The experimental results are presented in Table~\ref{table:rdtsc_overhead}.
     \texttt{elapsed}      & \textless25 (10.4 ns) & \textless5 (2.1 ns)   & \textless30 (12.5 ns) & 36 (14.4 ns)  & 0.5 (0.2 ns)    \\ \hline
     \texttt{for} loop     & 3 (1.2 ns)            & 2 (0.8 ns)            & 5 (2.0 ns)            & 7 (2.8 ns)    & 0.02 (0.008 ns)    \\ \hline
   \end{tabular}
-\label{table:rdtsc_overhead}
+  \label{table:rdtsc_overhead}
 \end{table}
 \subsubsection{Result Discussion}
 
@@ -263,10 +263,10 @@ input.
 \subsubsection{Experiment Results}
 
 \begin{figure}[!htb]
-\centering
-\includegraphics[scale=.6]{proc.eps}
-\caption{Procedure call performance (reading overhead included)}
-\label{fig:proc}
+  \centering
+  \includegraphics[scale=.6]{proc.eps}
+  \caption{Procedure call performance (reading overhead included)}
+  \label{fig:proc}
 \end{figure}
 
 \subsubsection{Result Discussion}
@@ -310,13 +310,13 @@ The experimental results are presented in Table~\ref{table:systemcall_overhead}.
 \begin{table}
   \begin{center}
     \caption{System Call Overhead (in cycles)}
-      \begin{tabular}{|l|l|l|l|l|l|}
-        \hline
-        Operation   & Prediction            & Mean                       & Std. Deviation     \\ \hline
-        getppid()   & 15 (7 ns)             & 242.35 (96.94 ns)          & 9.06 (3.624 ns)    \\ \hline
-      \end{tabular}
+    \begin{tabular}{|l|l|l|l|l|l|}
+      \hline
+      Operation   & Prediction            & Mean                       & Std. Deviation     \\ \hline
+      getppid()   & 15 (7 ns)             & 242.35 (96.94 ns)          & 9.06 (3.624 ns)    \\ \hline
+    \end{tabular}
   \end{center}
-\label{table:systemcall_overhead}
+  \label{table:systemcall_overhead}
 \end{table}
 
 \subsubsection{Result Discussion}
@@ -468,16 +468,16 @@ etc.\ , we estimate a smaller hardware overhead.
 The results can be found in table~\ref{table:contextSwitch_overhead}.
 
 \begin{table}
-	\begin{center}
-  \caption{Context switching overhead performance (in cycles)}
-  \begin{tabular}{|l|l|l|l|l|l|}
-    \hline
-    Operation          & Hardware Est.   & Software Est.         & Prediction            & Mean          & Std. Deviation     \\ \hline
-    Process            & \textless50000  & \textless20000   & \textless60000 & 71582.43 (0.0286 ms)  & 507.32 (0.001 ms)    \\ \hline
-    Kernel Thread      & \textless10000  & \textless10000 & \textless 20000 & 23425.98 (9760.8 ns) & 211.34 (88.058 ns)  \\ \hline
-  \end{tabular}
-\label{table:contextSwitch_overhead}
-\end{center}
+  \begin{center}
+    \caption{Context switching overhead performance (in cycles)}
+    \begin{tabular}{|l|l|l|l|l|l|}
+      \hline
+      Operation          & Hardware Est.   & Software Est.         & Prediction            & Mean          & Std. Deviation     \\ \hline
+      Process            & \textless50000  & \textless20000   & \textless60000 & 71582.43 (0.0286 ms)  & 507.32 (0.001 ms)    \\ \hline
+      Kernel Thread      & \textless10000  & \textless10000 & \textless 20000 & 23425.98 (9760.8 ns) & 211.34 (88.058 ns)  \\ \hline
+    \end{tabular}
+    \label{table:contextSwitch_overhead}
+  \end{center}
 \end{table}
 
 The results are pretty much similar to the predictions.
@@ -509,10 +509,10 @@ From previous experiments, we noticed how difficult it was to estimate the exact
 
 \subsubsection{Experiment Results}
 \begin{figure}[!htb]
-\centering
-\includegraphics[scale=.5]{cahce_access.png}
-\caption{Latency for individual integer accesses to main memory and the L1 and L2 caches}
-\label{fig:cache_access_time}
+  \centering
+  \includegraphics[scale=.5]{cahce_access.png}
+  \caption{Latency for individual integer accesses to main memory and the L1 and L2 caches}
+  \label{fig:cache_access_time}
 \end{figure}
 
 \subsubsection{Result Discussion}
@@ -541,42 +541,42 @@ Thus, we predict that our memory read bandwidth will be less than this value.\\
 Our results are shown in Figure \ref{fig:ram_bw}. and Table \ref{table:mem_bw} \\
 
 \begin{table}
-	\begin{center}
-  \caption{Memory read bandwidth(100 experiments)}
-  \begin{tabular}{|l|l|l|}
-  \hline
-Read size& Bandwidth(MB)& standard deviation \\  \hline
-128B  & 30246.5123374 & 2463.99759062 \\  \hline
-256B  & 32385.0898914 & 985.005918514 \\  \hline
-512B  & 32962.138536  & 334.818111688 \\  \hline
-1KB   & 34406.4881076 & 1022.40808475 \\  \hline
-2KB   & 35220.0924862 & 851.44763812 \\  \hline
-4KB   & 35485.9973028 & 1013.02041157 \\  \hline
-8KB   & 35939.0685171 & 907.868248426 \\  \hline
-16KB  & 35574.1324265 & 1718.20388877 \\  \hline
-32KB  & 31544.0219404 & 1407.52979557 \\  \hline
-64KB  & 16172.9533499 & 744.0446469 \\  \hline
-128KB & 16450.7229957 & 270.207782424 \\  \hline
-256KB & 16519.9494    & 55.4321995455 \\  \hline
-512KB & 16525.8607228 & 60.234820764 \\  \hline
-1MB   & 16494.4736645 & 124.302969813 \\  \hline
-2MB   & 13618.2029798 & 1008.70403144 \\  \hline
-4MB   & 6114.52143216 & 126.829869046 \\  \hline
-8MB   & 5322.41277172 & 29.9100826471 \\  \hline
-16MB  & 5316.23314084 & 27.867507391 \\  \hline
-32MB  & 5314.78016467 & 37.4761378191 \\  \hline
-64MB  & 5311.64655261 & 55.3834994529 \\  \hline
-  \end{tabular}
-\label{table:mem_bw}
-\end{center}
+  \begin{center}
+    \caption{Memory read bandwidth(100 experiments)}
+    \begin{tabular}{|l|l|l|}
+      \hline
+      Read size& Bandwidth(MB)& standard deviation \\  \hline
+      128B  & 30246.5123374 & 2463.99759062 \\  \hline
+      256B  & 32385.0898914 & 985.005918514 \\  \hline
+      512B  & 32962.138536  & 334.818111688 \\  \hline
+      1KB   & 34406.4881076 & 1022.40808475 \\  \hline
+      2KB   & 35220.0924862 & 851.44763812 \\  \hline
+      4KB   & 35485.9973028 & 1013.02041157 \\  \hline
+      8KB   & 35939.0685171 & 907.868248426 \\  \hline
+      16KB  & 35574.1324265 & 1718.20388877 \\  \hline
+      32KB  & 31544.0219404 & 1407.52979557 \\  \hline
+      64KB  & 16172.9533499 & 744.0446469 \\  \hline
+      128KB & 16450.7229957 & 270.207782424 \\  \hline
+      256KB & 16519.9494    & 55.4321995455 \\  \hline
+      512KB & 16525.8607228 & 60.234820764 \\  \hline
+      1MB   & 16494.4736645 & 124.302969813 \\  \hline
+      2MB   & 13618.2029798 & 1008.70403144 \\  \hline
+      4MB   & 6114.52143216 & 126.829869046 \\  \hline
+      8MB   & 5322.41277172 & 29.9100826471 \\  \hline
+      16MB  & 5316.23314084 & 27.867507391 \\  \hline
+      32MB  & 5314.78016467 & 37.4761378191 \\  \hline
+      64MB  & 5311.64655261 & 55.3834994529 \\  \hline
+    \end{tabular}
+    \label{table:mem_bw}
+  \end{center}
 \end{table}
 
 
 \begin{figure}[!htb]
-\centering
-\includegraphics[scale=.5]{RAM_bw.eps}
-\caption{Left y-axis is bandwidth, right y-axis is std/mean, x-axis is the size of memory read}
-\label{fig:ram_bw}
+  \centering
+  \includegraphics[scale=.5]{RAM_bw.eps}
+  \caption{Left y-axis is bandwidth, right y-axis is std/mean, x-axis is the size of memory read}
+  \label{fig:ram_bw}
 \end{figure}
 
 \subsubsection{Result Discussion}
@@ -607,22 +607,22 @@ See table~\ref{table:pagefault} for data.
 
 
 \begin{figure}[!htb]
-\centering
-\includegraphics[scale=.45]{pagefault_sequential.png}
-\caption{Sequential Access mmap file}
-\label{fig:pagefault_sequential}
+  \centering
+  \includegraphics[scale=.45]{pagefault_sequential.png}
+  \caption{Sequential Access mmap file}
+  \label{fig:pagefault_sequential}
 \end{figure}
 
 \begin{table}
-	\begin{center}
-  \caption{Context switching overhead performance (in cycles)}
-  \begin{tabular}{|l|l|l|l|l|l|}
-    \hline
-    Operation             & Hardware Est.         & Software Est.         & Prediction            & Mean        & Std. Deviation       \\ \hline
-    mmap file accessing   & 10ms                  & 1ms                   & 11ms                  & 7.4ms       & 1.1 ms               \\ \hline
-  \end{tabular}
-\label{table:pagefault}
-\end{center}
+  \begin{center}
+    \caption{Context switching overhead performance (in cycles)}
+    \begin{tabular}{|l|l|l|l|l|l|}
+      \hline
+      Operation             & Hardware Est.         & Software Est.         & Prediction            & Mean        & Std. Deviation       \\ \hline
+      mmap file accessing   & 10ms                  & 1ms                   & 11ms                  & 7.4ms       & 1.1 ms               \\ \hline
+    \end{tabular}
+    \label{table:pagefault}
+  \end{center}
 \end{table}
 
 See table~\ref{fig:pagefault_sequential} for first part of the experiment.\\
@@ -639,34 +639,102 @@ Dividing the result by the size of a page, which is 4KB, we get an average of 1.
 \subsection{Round Trip Time}
 \subsubsection{Experiment Methodology}
 Round trip time measures the time spend for a established tcp connection to send one packet and receive an acknowledgement of that packet. AKA, the time for the packet to do a "round trip".\\
-In order to measure it, we used c language server-client flavored socket program to establish connection, transmit and measure time. We measure the time it took on a established connection for one sigle write of one byte of data, and one single read of one byte of data implemented using the write() and read() function on an established socket connection. We measured one packet roundtrip time on a established link for 100/1000/10000/100000 times to observer different roundtrip time. Then we break that connection, repeat the experiment for 100/10 times, to get a mean and standard deviation. The number of experiments we did is based on the stability of the measured data. When standard deviation is small enough, we consider the data is stable enough.\\
+In order to measure it, we used c language server-client flavored socket program to establish connection, transmit and measure time. We measure the time it took on a established connection for one single write of one byte of data, and one single read of one byte of data implemented using the write() and read() function on an established socket connection. We measured one packet roundtrip time on a established link for 100/1000/10000/100000 times to observer different roundtrip time. Then we break that connection, repeat the experiment for 100/10 times, to get a mean and standard deviation. The number of experiments we did is based on the stability of the measured data. When standard deviation is small enough, we consider the data is stable enough. Note that, we do not want to consider TCP handshake time in RTT, we did not include the connection overhead in the measurement. Also, measuring multiple transmission on one established connection will help us amortize and reduce any setup and teardown overhead of the connection.\\
 Since round trip time depends heavily on the internet connection environment between the server and client, we will describe our network environment in the next part. \\
-In terms of ICMP, we also used c socket to perform ping operation. We meaure the time between sending and receiving the ICMP packets, repeat this for 1000 times for each experiment, and repeat the experiment for 100 times just like the roundtrip experiment. \\
+In terms of ICMP, we also used c socket to perform ping operation. We measure the time between sending and receiving the ICMP packets, repeat this for 1000 times for each experiment, and repeat the experiment for 100 times just like the roundtrip experiment. \\
+We also tested roundtrip time under different server queue size, some interesting results are found.\\
 \subsubsection{Experiment Setup and Prediction}
-Since complex network routing will significantly affect the stability of experiment, we used direct cable connection for our experiment. \\
-The specification of the other machine used here is give in form \\ %TODO: add the spec form here
-
-
+Since complex network routing will significantly affect the stability of experiment, we used direct cable connection for our experiment. This will avoid any disturbance of out side network traffic. \\
+The specification of the other machine which is used as server is give in form \\ %TODO \ref{fig:server}add the spec form here
+When measuring roundtrip time(RTT), we expect RRT would be much smaller when measuring loopback interface than measuring remote interface, since the operation involved in a packet transfer locally is essentially memory copy operation, which we would expect would be at least one order of magnitude faster than actually transfering packet in the network. When measuring ping latency, we expect the same behavior. We also expect that pinging loopback interface would be at least one order of magnitude faster than pinging remote interface. \\
+When comparing RRT and ping latency, we predict that RRT measured through TCP would be slightly slower than ping, since ICMP is stateless, there should be less overhead than TCP RRT. We expect the performance different be within one order of magnitude.\\
 \subsubsection{Experiment Results}
+
+\begin{table}
+  \begin{center}
+    \caption{Comparison of Roundtrip time between TCP and ICMP}
+    \begin{tabular}{|l|l|l|}
+      \hline
+      Protocol  & loopback(ms)     & remote(ms)              \\ \hline
+      ICMP ping & 0.00918/0.000307 & 0.227/0.00919           \\ \hline
+      TCP RRT   & 0.0462/0.00556   & 0.534/0.0235(min 0.270) \\ \hline
+    \end{tabular}
+    \label{table:roundtrip}
+  \end{center}
+\end{table}
+
+Table \ref{table:roundtrip} shows the mean time it took for a single ping request and TCP RTT with standard deviation. In In this table, ICMP was tested 1000 times for each of the 100 experiments, and TCP RTT was tested 100000 times for each of the 10 experiments. The ICMP ping seems to be very stable, we did not further test other experiment settings. However, TCP RTT is not as stable as ICMP ping. We tested a few different experiment settings, the data in this table is the most stable one we got. Our original data can be found in the appendix. We will discuss this phenomenon in the next section. \\
+In addition to the data we showed in table \ref{table:roundtrip}, we also observed a min round trip time of about 0.270ms and max round trip time of about 0.794ms. In this case, we actually prefer to see the min value as the actual round trip time, since the transmission time on wire is not avoidable. Based on that, any other disturbance should be rule out. Not to mention our original data is not very stable.\\
+
 \subsubsection{Result Discussion}
+The experiment results matched most of our predictions. TCP RTT performs one order of magnitude slower on direct connection cable than loopback interface. ICMP ping time increase in direct cable connection more than one order of magnitude, which is a little more than we expected, but is actually reasonable. When executed on loopback interface, the actual transmit time is only a small portion of the overhead. However, when executed on a remote connection, the time to transmit and read the data from NIC become critical. That is why the difference between TCP RTT and ICMP ping on direct cable connection is much less than on loopback interface. Actual transmit time dominated the whole processing time.\\
+From the result that ICMP ping is much faster than TCP RRT on loopback interface we confirmed that TCP has a much more complicated work flow.\\
+There is an interesting phenomenon we observed during experiment we want to mention. When measuring TCP RTT, the result can be very unstable, and the reason is unknown. We have attached our original data in the appendix to show the phenomenon. We observed almost the same mean RTT but different standard deviation for different experiments. In experiment 2 and experiment 3, we both used server queue size of 100, while in experiment 1, we used server queue size 5. From these data we may say that a larger queue size decreases the magnitude of fluctuation in our experiments, but when comparing experiment 2 and three, we prefer to believe that there is some other factors which affects the stability of TCP RTT more. \\
 
 %----------------------------- subsection --------------------------%
 \subsection{Peak Bandwidth}
 \subsubsection{Experiment Methodology}
-The prerequisite to measure the peak bandwidth of one machine is that, the other machine which recevives the data, and the network between them, has to be capable of transfering data faster than the peack bandwidth of the NIC of that particular machine. In order to satifiy this precondition, we first chose another machine which is labled to have a better hardware performance, then measure the bandiwdth between them, and the bandwidth between the better machine with an even better machine, to make sure that it is not the bottle-neck of the peak bandwidth of the target machine. In order to rule out the bottle-neck of router, we used direct cable connection.\\
-In terms of implementation, we test the bandwidth by sending data over TCP. For each test, we send 10MB of data and measure the time used to send it, then calculate the bandwidth. Each test is repeated 100 times, each experiment is repeated 100 times.\\
-\subsubsection{Prediction}
+In order to measure peak bandwidth, we open a TCP connection, and keep sending data through it. We measured the time to send 1MB/10MB/100MB/1000MB/2000MB of data, 256 bytes per packets, to get the stable peak bandwidth. We do some experiments both on loopback interface and direct cable connection, some more is done on loopback interface to explore the stable performance. The data packets are sent one way from client to server, server will simply discard anything it receives, and will automatically stop when client send a package with less than 256 bytes of data. Client is the machine we are measuring, and the specification of server machine can be found in \\%TODO \ref{fig:server}add the spec form here 
+We chose 256 bytes as one data packet also to avoid being split into multiple packets, 256 bytes is within the 1500bytes MTU.\\
+Our initial experiments are all done using queue size of 5 on server, we then realized that queue size may significantly affect performance, so we added more experiments with various of queue size to exploit the actual peak bandwidth.\\
+
+\subsubsection{Setup and Prediction}
+Like the RTT experiment, we used a direct cable connection to measure peak bandwidth. Both of our server and client machine has a ethernet interface labeled 10/100/1000Mb. We used a twisted pair cable, which is a 100BASE-TX standard cable, with RJ45. With this setting, the peak bandwidth we can reach would be bounded by the cable we used. We did not expect the system to fully utilize the bandwidth the cable can provide, we think 80 percent would be a fair guess. Thus, we predict our peak bandwidth to be about 10MB(80Mb).\\ % TODO Is server machine also labeled 10/100/1000Mb? check!
+For loopback interface, we expect the bandwidth to be much higher, since it is bounded by the speed of memory operation. Loopback interface is actually a buffer treated like file in memory, thus sending data to loopback interface is essentially copying memory data. Because we don't know how exactly such operations are performed, we are not able to make any specific guess. Though we know such kind of copying is much slower than mere ram read bandwidth, which we measured in previous sections. So, we predict loopback interface peak bandwidth to be smaller than mem ram bandwidth, but should be within 1 order of magnitude. \\
 \subsubsection{Experiment Results}
+
+Figure \ref{table:peak_bandwidth} shows our experiment result in MB/s. Each experiment for cable connection and loopback interface with queue size of 5 is repeated 10 times to get the mean value and standard deviation. We did not measure bandwidth when transferring 1000MB remotely, because we think the result we get from transferring 10MB and 100MB are already stable enough. Also, it is too time consuming to repeat such an experiment to get a stable result.\\
+We did loopback experiments with queue size of 100 after we finished the previous experiments. We realized that queue size may affect performance significantly, so we added these experiments. Each of these experiments is reprepeated 100 times to get stable mean and standard deviation.\\
+
+\begin{table}
+  \begin{center}
+    \caption{Peak bandwidth in MB/s}
+    \begin{tabular}{|l|l|l|l|l|l|l|}
+      \hline
+      Amount of data sent      & 1MB        & 10MB       & 100MB       & 1000MB    & 2000MB   \\ \hline
+      Remote                   & 12.3/0.463 & 11.4/0.134 & 11.2/0.0122 & -         & -        \\ \hline
+      Loopback(queue size 5)   & 45.9/3.11  & 65.3/3.19  & 67.9/3.10   & 68.7/1.73 & -        \\ \hline
+      Loopback(queue size 100) & 51.7/14.4  & 129/27.7   & 180/5.30    & 191/3.47  & 191/4.84 \\ \hline
+    \end{tabular}
+    \label{table:peak_bandwidth}
+  \end{center}
+\end{table}
+
 \subsubsection{Result Discussion}
+Remote peak bandwidth matched our prediction pretty good. While the cable support 100Mb/s(12.5MB/s) speed, our result showed 11.2MB/s speed, which is about 90 percent of the capability of the cable. We think that is a very good performance. If a better connection is used between the server and client, we believe a much higher bandwidth could be supported. \\
+For loopback interface, in our first set of experiments where server has queue size of 5, we got peak bandwidth 68.7MB/s(549.8Mb/s). We think this is bandwidth is way too small. Then we realized the size of queue size matters. We redo the experiments with various queue size, and we found when queue size is bigger than some threshold, there is no longer bandwidth increase. We did not intend to find that exact queue size, so here we choose server queue with size 100 for convenience. With increased queue size, we see an increase in peak bandwidth too, and stabilizes at 191MB/s(1448Mb/s). Although this is still significantly slower than memory read bandwidth, we believe it is a reasonable value, because the operations included is much more complicated than mere memory reads. \\
 
 %----------------------------- subsection --------------------------%
 \subsection{Connection Overhead}
 \subsubsection{Experiment Methodology}
-To measure connection overhead of TCP protocol, we did not count the time to obtain a local socket as the overhead, we only measure the time used to establish the connection.
-\subsubsection{Prediction}
-\subsubsection{Experiment Results}
-\subsubsection{Result Discussion}
+To measure connection overhead of TCP protocol, we did not count the time to obtain a local socket as the overhead, we only measured the time used to establish and close the connection. We measured remote TCP overhead for 100 times in one experiment, and repeated the experiment for 100 times to get mean and standard deviation. For loopback interface, we measured TCP overhead 1000 times in one experiment and repeated the experiment for 100 times to get mean and standard deviation. \\
+We set the server to block on read after connection is established, so that it is the client who actually issued a close to the connection. We did not send any data through the connection, because TCP may send such data together with TCP SYN/ACK.\\
 
+\subsubsection{Setup and Prediction}
+Like the previous experiments, we used direct cable connection between the server and client machine.\\
+TCP connection establishment need 3 handshakes, so we expect to observe a connection overhead of at about 1 RTT for remote connection. For local connection, since round trip time is just memory operation, we expect it to be a little bit longer than local RTT time, since there will be more data structure initialization than simply sending data.\\
+When closing a TCP connection, the client should send a FIN to server and wait for FIN from server to actually close the connection, then send an ACK to that FIN. So, the closing of a TCP connection should cost 1 RTT too. However, we think the operating system may chose to do this asynchronously, so that we cannot actually measure this closing behavior.\\
+
+\subsubsection{Experiment Results}
+
+\begin{table}
+  \begin{center}
+    \caption{TCP connection overhead}
+    \begin{tabular}{|l|l|l|}
+      \hline
+      Amount of data sent & open           & close            \\ \hline
+      Loopback            & 0.0486/0.00836 & 0.0350/0.00481   \\ \hline
+      Remote              & 0.252/0.00419  & 0.00702/0.000301 \\ \hline
+    \end{tabular}
+    \label{table:tcp_overhead}
+  \end{center}
+\end{table}
+
+Table \ref{table:tcp_overhead} showed the overhead for establishing and destroying a TCP connection. Each experiment include 100 times to open and close a TCP connection, each experiment is repeated for 100 times.\\
+
+\subsubsection{Result Discussion}
+The result roughly matched our prediction very well. But one problem is that, from our previous experiments, we have a measured TCP RTT of about 0.50ms. While here, our TCP connection open overhead is just 0.25ms, which is half of TCP RTT. This is abnormal because the client have to wait at least for one round trip time to receive the SYN signal from server. After that, the client can send ACK asynchronously. Like what we have explained in the round trip section, we prefer to choose the minimum round trip time that we measured as the actual round trip time. If that is the case, the connection overhead we measured here matched the TCP handshake behavior.\\
+In terms of close operation, since linux treat loopback interface as a file, when closing connection with close, it is more likely to just close the file descriptor. Then the operating system handles the actual work of destroying the connection with the server. Quoting from Gnu c library manual online, ``If there is still data waiting to be transmitted over the connection, normally close tries to complete this transmission.''. Although it is said so in the manual, we observed some behavior which may indicate that the client did not actually tries to negotiate the closing of the connection with server at all. We found sometimes establishing a connection on the same port number after a previous experiment finished is not allowed by the system, saying that ``binding to socket failed: Address already in use''. In conclusion, no matter the operating system negotiated the closing of the connection with the server or not, it should have done it asynchronously, so that we cannot measure that behavior in our experiment. \\
 
 %============================= section ==========================%
 \section{File System}
@@ -682,10 +750,10 @@ We can safely say that the size of the cache will be smaller than main memory, w
 \subsubsection{Experiment Results}
 
 \begin{figure}[!htb]
-\centering
-\includegraphics[scale=.6]{file_cache_size.png}
-\caption{Left x-axis is the size of file and y-axis is average read time. Both are on log scale.}
-\label{fig:file_cache_size}
+  \centering
+  \includegraphics[scale=.6]{file_cache_size.png}
+  \caption{Left x-axis is the size of file and y-axis is average read time. Both are on log scale.}
+  \label{fig:file_cache_size}
 \end{figure}
 
 The results can be found in figure~\ref{fig:file_cache_size}.
@@ -709,10 +777,10 @@ We expected the time for random read to be much larger than the time for sequent
 The results can be found in figure~\ref{fig:file_read_times}.
 
 \begin{figure}[!htb]
-\centering
-\includegraphics[scale=.6]{file_read_times.png}
-\caption{Left x-axis is the size of file and y-axis is average read time per block. Both are on log scale.}
-\label{fig:file_read_times}
+  \centering
+  \includegraphics[scale=.6]{file_read_times.png}
+  \caption{Left x-axis is the size of file and y-axis is average read time per block. Both are on log scale.}
+  \label{fig:file_read_times}
 \end{figure}
 
 
@@ -770,7 +838,7 @@ Qiheng Wang:
     Process Switch         & \textless50000 ns     & \textless20000 ns     & \textless70000 ns     & 0.1 mns\\ \hline
     Kernel Thread Switch   & \textless10000 ns     & \textless10000 ns     & \textless20000 ns     & 88.06 ns\\ \hline
   \end{tabular}
-\label{table:overview_overhead}
+  \label{table:overview_overhead}
 \end{table}
 
 \begin{table}[!htbp]
@@ -785,7 +853,7 @@ Qiheng Wang:
     Write RAM Bandwidth     & ns                    & ns                    & ns                    & ns\\ \hline
     Page Fault Service Time & 10 ms                 & 1 ms                  & 11 ms                 & 7.4 ms\\ \hline
   \end{tabular}
-\label{table:overview_memory}
+  \label{table:overview_memory}
 \end{table}
 
 \begin{table}[!htbp]
@@ -795,7 +863,7 @@ Qiheng Wang:
     Operation               & Hardware Est.         & Software Est.         & Prediction            & Mean     \\ \hline
     ?????????????           & ns                    & ns                    & ns                    & ns\\ \hline
   \end{tabular}
-\label{table:overview_network}
+  \label{table:overview_network}
 \end{table}
 
 \begin{table}[!htbp]
@@ -810,7 +878,40 @@ Qiheng Wang:
     Remote Write Time       & ns                    & ns                    & ns                    & ns\\ \hline
     Contention              & ns                    & ns                    & ns                    & ns\\ \hline
   \end{tabular}
-\label{table:overview_file}
+  \label{table:overview_file}
+\end{table}
+
+%============================= section ==========================%
+\section{Appendix}
+
+\begin{table}[h]
+  \caption{TCP remote round trip experiment original data}
+  \begin{center}
+    \resizebox{\columnwidth}{!}{
+      \begin{tabular}{|>{\centering\arraybackslash\bfseries}m{1in}|l|l|l|l|}
+        \hline
+                                        & Experiment setting                     & mean       & standard deviation \\ \hline
+        \multirow{4}{*}{Experiment 1}   & 100 tests each exp, repeat 100 times   & 0.44231897 & 0.242424045066     \\ \cline{2-4}
+                                        & 1000 tests each exp, repeat 100 times  & 0.6776518  & 0.219758944135     \\ \cline{2-4}
+                                        & 10000 tests each exp, repeat 10 times  & 0.5683592  & 0.201693566034     \\ \cline{2-4}
+                                        & 100000 tests each exp, repeat 10 times & 0.3435085  & 0.0300421961656    \\ \cline{2-4}
+        \hline
+        \hline
+        \multirow{3}{*}{Experiment 2}   & 1000 tests each exp, repeat 100 times  & 0.53642719 & 0.0546326544903    \\ \cline{2-4}
+                                        & 10000 tests each exp, repeat 100 times & 0.51698054 & 0.0853942325217    \\ \cline{2-4}
+                                        & 100000 tests each exp, repeat 10 times & 0.5349342  & 0.0235356311528    \\ \cline{2-4}
+        \hline
+        \hline
+        \multirow{5}{*}{Experiment 3}   & 10 tests each exp, repeat 100 times    & 0.51347809 & 0.203160319043     \\ \cline{2-4}
+                                        & 100 tests each exp, repeat 100 times   & 0.53865483 & 0.215805711464     \\ \cline{2-4}
+                                        & 1000 tests each exp, repeat 100 times  & 0.53209326 & 0.142340688683     \\ \cline{2-4}
+                                        & 1000 tests each exp, repeat 100 times  & 0.53520504 & 0.146021042698     \\ \cline{2-4}
+                                        & 1000 tests each exp, repeat 100 times  & 0.53520504 & 0.146021042698     \\ \cline{2-4}
+        \hline
+      \end{tabular}
+    }
+  \end{center}
+  \label{table:original_tcp_rrt}
 \end{table}
 
 %-----------------------------------------------------------------------------
@@ -818,18 +919,22 @@ Qiheng Wang:
 %-----------------------------------------------------------------------------
 \begin{thebibliography}{1}
 
-\bibitem{FFTW} Cycle Counters. Available at {\tt http://www.fftw.org/download.html}.
-\bibitem{}http://en.wikipedia.org/wiki/Penryn\_(microprocessor)
-\bibitem{}http://tuxthink.blogspot.com/2011/02/kernel-thread-creation-1.html
-\bibitem{}http://jahanzebnotes.blogspot.com/2013/02/turn-off-cpu-throttling-ubuntu.html
-\bibitem{}http://www.seagate.com/staticfiles/support/disc/manuals/notebook/momentus/5400.6\%20(Wyatt)/100528359e.pdf
-\bibitem{}http://www.cpuid.com/softwares/cpu-z.html
-\bibitem{}Larry McVoy and Carl Staelin. 1996. lmbench: portable tools for performance analysis. In Proceedings of the 1996 annual conference on USENIX Annual Technical Conference (ATEC '96). USENIX Association, Berkeley, CA, USA, 23-23.
-\bibitem{}http://codearcana.com/posts/2013/05/18/achieving-maximum-memory-bandwidth.html
-\bibitem{}http://www.nasm.us/doc/nasmdoc6.html
-\bibitem{}http://zsmith.co/bandwidth.html
-\bibitem{}http://www.sisoftware.net/?d=qa\&f=ben\_mem\_latency
-\bibitem{}http://www.bitmover.com/lmbench/
+  \bibitem{FFTW} Cycle Counters. Available at {\tt http://www.fftw.org/download.html}.
+  \bibitem{}http://en.wikipedia.org/wiki/Penryn\_(microprocessor)
+  \bibitem{}http://tuxthink.blogspot.com/2011/02/kernel-thread-creation-1.html
+  \bibitem{}http://jahanzebnotes.blogspot.com/2013/02/turn-off-cpu-throttling-ubuntu.html
+  \bibitem{}http://www.seagate.com/staticfiles/support/disc/manuals/notebook/momentus/5400.6\%20(Wyatt)/100528359e.pdf
+  \bibitem{}http://www.cpuid.com/softwares/cpu-z.html
+  \bibitem{}Larry McVoy and Carl Staelin. 1996. lmbench: portable tools for performance analysis. In Proceedings of the 1996 annual conference on USENIX Annual Technical Conference (ATEC '96). USENIX Association, Berkeley, CA, USA, 23-23.
+  \bibitem{}http://codearcana.com/posts/2013/05/18/achieving-maximum-memory-bandwidth.html
+  \bibitem{}http://www.nasm.us/doc/nasmdoc6.html
+  \bibitem{}http://zsmith.co/bandwidth.html
+  \bibitem{}http://www.sisoftware.net/?d=qa\&f=ben\_mem\_latency
+  \bibitem{}http://www.bitmover.com/lmbench/
+  \bibitem{}http://www.tcpipguide.com/free/t\_TCPConnectionTermination-2.htm
+  \bibitem{}http://www.tcpipguide.com/free/t\_TCPConnectionEstablishmentProcessTheThreeWayHandsh-3.htm
+  \bibitem{}http://www.tcpipguide.com/free/t\_TCPOperationalOverviewandtheTCPFiniteStateMachineF-2.htm
+  \bibitem{}http://www.gnu.org/software/libc/manual/html\_node/Closing-a-Socket.html
 
 \end{thebibliography}
 
