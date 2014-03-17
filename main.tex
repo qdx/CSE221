@@ -52,6 +52,8 @@ used in future endeavors as a set of performance results to compare against.
 The language of choice in these tests will be C/C++/Assembly.  The reason for choosing
 C/C++ comes from the flexibility that C/C++ provides. It is a high-level language that allows us to, at the same time, work without much overhead as, for example, Java when measuring time. While assembly could provide more fine tuned experiments which can avoid being twisted by compiler. The compiler we are using is GCC 4.6.3-1ubuntu5.
 
+Note that, when a remote server is included in the experiments, we always compile the code on the local machine that we are measuring, then upload the binary code to remote server to execute, so that we all use the same version of compiler with the same compile options. \\
+
 %============================= section ==========================%
 \section{Machine Description}
 
