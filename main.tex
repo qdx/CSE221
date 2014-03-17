@@ -670,7 +670,7 @@ In terms of ICMP, we also used c socket to perform ping operation. We measure th
 We also tested roundtrip time under different server queue size, some interesting results are found.\\
 \subsubsection{Experiment Setup and Prediction}
 Since complex network routing will significantly affect the stability of experiment, we used direct cable connection for our experiment. This will avoid any disturbance of out side network traffic. \\
-The specification of the other machine which is used as server is give in table \ref{table:machine_description_remote}\\ 
+The specification of the other machine which is used as server is give in table \ref{table:machine_description_remote}\\
 When measuring roundtrip time(RTT), we expect RRT would be much smaller when measuring loopback interface than measuring remote interface, since the operation involved in a packet transfer locally is essentially memory copy operation, which we would expect would be at least one order of magnitude faster than actually transfering packet in the network. When measuring ping latency, we expect the same behavior. We also expect that pinging loopback interface would be at least one order of magnitude faster than pinging remote interface. \\
 When comparing RRT and ping latency, we predict that RRT measured through TCP
 would be slightly slower than ping, since ICMP is stateless, there should be
@@ -719,7 +719,7 @@ We chose 256 bytes as one data packet also to avoid being split into multiple pa
 Our initial experiments are all done using queue size of 5 on server, we then realized that queue size may significantly affect performance, so we added more experiments with various of queue size to exploit the actual peak bandwidth.\\
 
 \subsubsection{Setup and Prediction}
-Like the RTT experiment, we used a direct cable connection to measure peak bandwidth. Both of our server and client machine has a ethernet interface labeled 10/100/1000Mb. We used a twisted pair cable, which is a 100BASE-TX standard cable, with RJ45. With this setting, the peak bandwidth we can reach would be bounded by the cable we used. We did not expect the system to fully utilize the bandwidth the cable can provide, we think 80 percent would be a fair guess. Thus, we predict our peak bandwidth to be about 10MB(80Mb).\\ 
+Like the RTT experiment, we used a direct cable connection to measure peak bandwidth. Both of our server and client machine has a ethernet interface labeled 10/100/1000Mb. We used a twisted pair cable, which is a 100BASE-TX standard cable, with RJ45. With this setting, the peak bandwidth we can reach would be bounded by the cable we used. We did not expect the system to fully utilize the bandwidth the cable can provide, we think 80 percent would be a fair guess. Thus, we predict our peak bandwidth to be about 10MB(80Mb).\\
 For loopback interface, we expect the bandwidth to be much higher, since it is bounded by the speed of memory operation. Loopback interface is actually a buffer treated like file in memory, thus sending data to loopback interface is essentially copying memory data. Because we don't know how exactly such operations are performed, we are not able to make any specific guess. Though we know such kind of copying is much slower than mere ram read bandwidth, which we measured in previous sections. So, we predict loopback interface peak bandwidth to be smaller than mem ram bandwidth, but should be within 1 order of magnitude. \\
 \subsubsection{Experiment Results}
 
@@ -923,7 +923,7 @@ Random Access     & 1.61ms  & 5.89ms  & 4.28ms          \\
 Table~\ref{table:penalty} shows the corresponding network penalty in terms of sequential and random access.
 
 \subsection{Contention}
-The goal of this section is to observe and measure how threading contention can affect file reading performance. 
+The goal of this section is to observe and measure how threading contention can affect file reading performance.
 \subsubsection{Experiment Methodology}
 In order to perform file read operation simultaneously, we created 10 copies of a 1MB file, each thread would be reading one of these files. We used p\_thread to perform each file read operation. Each thread repeatedly read their ``own'' file for 10 times. We measured the average time for each thread to read one file block from 2 to 10 threads. We then perform such experiments for 100 times to get mean and standard deviation of these experiment results.\\
 To get the correct average time, we used mutex to cooperate between threads when adding up their access time.\\
@@ -998,7 +998,7 @@ Contention - Qiheng\\
 
 The time we spent is:\\
 Boyuan Qin: 20 + hours\\
-Qiheng Wang:
+Qiheng Wang: 16 + hours\\
 
 %============================= section ==========================%
 \section{Complete Overview}
