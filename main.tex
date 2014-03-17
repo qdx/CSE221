@@ -881,6 +881,12 @@ Sequential access may not be sequential if given enough time or if trying to acc
 \subsection{Remote file read time}
 
 \subsubsection{Experiment Methodology}
+Once one have the random access and sequential access mechanism in the last subsection, we could
+easily access the remote file through NFS protocol. Here we use two laptops, both of them are connected through an Eithernet cable to ensure better connection. The machine specification can been seen in Table~\ref{table:machine_description_remote}. Here we refer the remote machine to the server, and the machine our code runs on to the client.
+On the client machine, we mount the server to using SSHFS and run the testing program.
+On the server machine,  we enable the file sharing and add the permission for the client machine.
+The testing schedule is exactly the same as what we mentioned in the previous section, except the target file is changed to /mnt/remote.
+
 \subsubsection{Prediction}
 \subsubsection{Experiment Results}
 \subsubsection{Result Discussion}
