@@ -64,34 +64,34 @@ The machine we measured is the Samsung R710 Laptop bought in October 2008. Its s
       \begin{tabular}{|>{\centering\arraybackslash\bfseries}m{1in}|l|l|}
         \hline
         \multirow{8}{*}{Processor}       & Model                                 & Intel\textregistered Core\texttrademark 2 Duo Processor P8600  \\ \cline{2-3}
-                                         & Instruction Set                       & 64 bit                                                         \\ \cline{2-3}
-                                         & Cycle Time                            & 0.417ns(2.4GHz frequency)                                      \\ \cline{2-3}
-                                         & L1 data cache                         & 32KB per core, 8-way set associative, 64-byte line size        \\ \cline{2-3}
-                                         & L1 instruction cache                  & 32KB per, core 8-way set associative, 64-byte line size        \\ \cline{2-3}
-                                         & L2 data cache                         & 3072KB, 12-way set associative, 64-byte line size              \\ \cline{2-3}
-                                         & FSB                                   & 1066 MHz                                                       \\
+        & Instruction Set                       & 64 bit                                                         \\ \cline{2-3}
+        & Cycle Time                            & 0.417ns(2.4GHz frequency)                                      \\ \cline{2-3}
+        & L1 data cache                         & 32KB per core, 8-way set associative, 64-byte line size        \\ \cline{2-3}
+        & L1 instruction cache                  & 32KB per, core 8-way set associative, 64-byte line size        \\ \cline{2-3}
+        & L2 data cache                         & 3072KB, 12-way set associative, 64-byte line size              \\ \cline{2-3}
+        & FSB                                   & 1066 MHz                                                       \\
         \hline
         \multirow{11}{*}{Hard Drive}     & Model                                 & Seagate Momentus\textregistered  5400.6 SATA model ST9500325AS \\ \cline{2-3}
-                                         & Capacity                              & 500GB                                                          \\ \cline{2-3}
-                                         & Cache                                 & 8 Mbytes                                                       \\ \cline{2-3}
-                                         & RPM                                   & 5400                                                           \\ \cline{2-3}
-                                         & Physical heads                        & 4                                                              \\ \cline{2-3}
-                                         & Discs                                 & 2                                                              \\ \cline{2-3}
-                                         & Average Seek Read                     & 14ms typical                                                   \\ \cline{2-3}
-                                         & Full Stroke Seek                      & 30ms                                                           \\ \cline{2-3}
-                                         & Average Latency                       & 5.6ms                                                          \\ \cline{2-3}
-                                         & Track to track seek time              & 1ms typical                                                    \\ \cline{2-3}
-                                         & I/O data transfer rate                & 300 Mbytes/s max                                               \\
+        & Capacity                              & 500GB                                                          \\ \cline{2-3}
+        & Cache                                 & 8 Mbytes                                                       \\ \cline{2-3}
+        & RPM                                   & 5400                                                           \\ \cline{2-3}
+        & Physical heads                        & 4                                                              \\ \cline{2-3}
+        & Discs                                 & 2                                                              \\ \cline{2-3}
+        & Average Seek Read                     & 14ms typical                                                   \\ \cline{2-3}
+        & Full Stroke Seek                      & 30ms                                                           \\ \cline{2-3}
+        & Average Latency                       & 5.6ms                                                          \\ \cline{2-3}
+        & Track to track seek time              & 1ms typical                                                    \\ \cline{2-3}
+        & I/O data transfer rate                & 300 Mbytes/s max                                               \\
         \hline
         \multirow{3}{*}{Memory}          & Capacity                              & Dual channel(symetric), each 1024 MBytes                       \\ \cline{2-3}
-                                         & Frequency                             & DDR3 PC3-10700 667 MHz                                         \\ \cline{2-3}
-                                         & Width                                 & 64 bit per channel                                             \\
+        & Frequency                             & DDR3 PC3-10700 667 MHz                                         \\ \cline{2-3}
+        & Width                                 & 64 bit per channel                                             \\
         \hline
         \multirow{2}{*}{Network Card}    & Model                                 & marvell yukon 88e8055                                          \\ \cline{2-3}
-                                         & Data Transfer Rate                    & 10/100/1000Mbps                                                \\
+        & Data Transfer Rate                    & 10/100/1000Mbps                                                \\
         \hline
         \multicolumn{1}{|>{\bfseries}c|}{\multirow{2}{*}{OS}} & \multirow{2}{*}{ Linux Distribution } & Ubuntu 12.04.4 LTS                        \\
-                                                              & \multicolumn{1}{c|}{}                 & GNU/Linux 3.8.0-35-generic i686           \\
+        & \multicolumn{1}{c|}{}                 & GNU/Linux 3.8.0-35-generic i686           \\
   % here if use |c| instead of c|, will generate an extra vertical line
         \hline
       \end{tabular}
@@ -668,7 +668,7 @@ In terms of ICMP, we also used c socket to perform ping operation. We measure th
 We also tested roundtrip time under different server queue size, some interesting results are found.\\
 \subsubsection{Experiment Setup and Prediction}
 Since complex network routing will significantly affect the stability of experiment, we used direct cable connection for our experiment. This will avoid any disturbance of out side network traffic. \\
-The specification of the other machine which is used as server is give in form \\ %TODO \ref{fig:server}add the spec form here
+The specification of the other machine which is used as server is give in table \ref{table:machine_description_remote}\\ 
 When measuring roundtrip time(RTT), we expect RRT would be much smaller when measuring loopback interface than measuring remote interface, since the operation involved in a packet transfer locally is essentially memory copy operation, which we would expect would be at least one order of magnitude faster than actually transfering packet in the network. When measuring ping latency, we expect the same behavior. We also expect that pinging loopback interface would be at least one order of magnitude faster than pinging remote interface. \\
 When comparing RRT and ping latency, we predict that RRT measured through TCP
 would be slightly slower than ping, since ICMP is stateless, there should be
@@ -712,12 +712,12 @@ There is an interesting phenomenon we observed during experiment we want to ment
 %----------------------------- subsection --------------------------%
 \subsection{Peak Bandwidth}
 \subsubsection{Experiment Methodology}
-In order to measure peak bandwidth, we open a TCP connection, and keep sending data through it. We measured the time to send 1MB/10MB/100MB/1000MB/2000MB of data, 256 bytes per packets, to get the stable peak bandwidth. We do some experiments both on loopback interface and direct cable connection, some more is done on loopback interface to explore the stable performance. The data packets are sent one way from client to server, server will simply discard anything it receives, and will automatically stop when client send a package with less than 256 bytes of data. Client is the machine we are measuring, and the specification of server machine can be found in \\%TODO \ref{fig:server}add the spec form here
+In order to measure peak bandwidth, we open a TCP connection, and keep sending data through it. We measured the time to send 1MB/10MB/100MB/1000MB/2000MB of data, 256 bytes per packets, to get the stable peak bandwidth. We do some experiments both on loopback interface and direct cable connection, some more is done on loopback interface to explore the stable performance. The data packets are sent one way from client to server, server will simply discard anything it receives, and will automatically stop when client send a package with less than 256 bytes of data. Client is the machine we are measuring, and the specification of server machine can be found in table \ref{table:machine_description_remote}\\
 We chose 256 bytes as one data packet also to avoid being split into multiple packets, 256 bytes is within the 1500bytes MTU.\\
 Our initial experiments are all done using queue size of 5 on server, we then realized that queue size may significantly affect performance, so we added more experiments with various of queue size to exploit the actual peak bandwidth.\\
 
 \subsubsection{Setup and Prediction}
-Like the RTT experiment, we used a direct cable connection to measure peak bandwidth. Both of our server and client machine has a ethernet interface labeled 10/100/1000Mb. We used a twisted pair cable, which is a 100BASE-TX standard cable, with RJ45. With this setting, the peak bandwidth we can reach would be bounded by the cable we used. We did not expect the system to fully utilize the bandwidth the cable can provide, we think 80 percent would be a fair guess. Thus, we predict our peak bandwidth to be about 10MB(80Mb).\\ % TODO Is server machine also labeled 10/100/1000Mb? check!
+Like the RTT experiment, we used a direct cable connection to measure peak bandwidth. Both of our server and client machine has a ethernet interface labeled 10/100/1000Mb. We used a twisted pair cable, which is a 100BASE-TX standard cable, with RJ45. With this setting, the peak bandwidth we can reach would be bounded by the cable we used. We did not expect the system to fully utilize the bandwidth the cable can provide, we think 80 percent would be a fair guess. Thus, we predict our peak bandwidth to be about 10MB(80Mb).\\ 
 For loopback interface, we expect the bandwidth to be much higher, since it is bounded by the speed of memory operation. Loopback interface is actually a buffer treated like file in memory, thus sending data to loopback interface is essentially copying memory data. Because we don't know how exactly such operations are performed, we are not able to make any specific guess. Though we know such kind of copying is much slower than mere ram read bandwidth, which we measured in previous sections. So, we predict loopback interface peak bandwidth to be smaller than mem ram bandwidth, but should be within 1 order of magnitude. \\
 \subsubsection{Experiment Results}
 
@@ -886,11 +886,36 @@ Sequential access may not be sequential if given enough time or if trying to acc
 \subsubsection{Result Discussion}
 
 \subsection{Contention}
-
+The goal of this section is to observe and measure how threading contention can affect file reading performance. 
 \subsubsection{Experiment Methodology}
+In order to perform file read operation simultaneously, we created 10 copies of a 1MB file, each thread would be reading one of these files. We used p\_thread to perform each file read operation. Each thread repeatedly read their ``own'' file for 10 times. We measured the average time for each thread to read one file block from 2 to 10 threads. We then perform such experiments for 100 times to get mean and standard deviation of these experiment results.\\
+To get the correct average time, we used mutex to cooperate between threads when adding up their access time.\\
 \subsubsection{Prediction}
+With contention, we expect the file access time would be longer than normal file access time, the time will increase with the number of threads increase. Ideally, the number of threads should be in proportion with access time. That means, the time for 4 threads to access 4 different files would be double the time for 2 threads to access 2 different files. However, since the OS may optimize the access pattern, it is possible that the coefficient will be less than the simply dividing number of threads. \\
+Also, with more threads trying to access file at the same time, the system will have to schedule them. Thus, with such scheduling, we expect the fluctuation in access time would be more obvious.\\
+
 \subsubsection{Experiment Results}
+\begin{table}[!htbp]
+  \caption{Contention file read}
+  \begin{tabular}{|l|l|l|l|l|l|}
+    \hline
+    Number of threads & block read time (1MB file) & block read time (4MB file) \\ \hline
+    2                 & 77189.12 ns                & 165130.24                  \\ \hline
+    3                 & 73209.179 ns               & 194928.64                  \\ \hline
+    4                 & 129187.84 ns               & 259143.68                  \\ \hline
+    5                 & 157745.1  ns               & 301875.17                  \\ \hline
+    6                 & 189597.03 ns               & 390498.99                  \\ \hline
+    7                 & 239539.94 ns               & 459500.99                  \\ \hline
+    8                 & 272983.04 ns               & 506024.96                  \\ \hline
+    9                 & 307791.66 ns               & 605675.51                  \\ \hline
+    10                & 358752.25 ns               & 701247.53                  \\ \hline
+  \end{tabular}
+  \label{table:contention_file_read}
+\end{table}
+
 \subsubsection{Result Discussion}
+Most of our result matched our prediction. We did observed great increase in reading time when thread number increases. However, the increase is not strict proportional to thread numbers. We believe that the operating system have optimized the reads so that they can be batched and read more efficiently with less seeks. \\
+From the different file size we can see that, the disk cache is still working well under contention. We see the reading speed decreases when our file size increases. However, we are not sure what will the operating system do if there are too many threads reading at the same time and not all of them can be given a cached block. \\
 
 %============================= section ==========================%
 \section{Time Consumption and Partition of work}
@@ -932,10 +957,11 @@ The experiments were split accordingly:\\
 Size of file cache - Boyuan\\
 File read time - Boyuan\\
 Remote file read time - Qiheng \\
-Contention - Qiheng\\
+Contention - Dexin\\
 
 The time we spent is:\\
 Boyuan Qin: 20 + hours\\
+Dexin Qi: 3 hours\\
 Qiheng Wang:
 
 %============================= section ==========================%
@@ -944,18 +970,19 @@ Qiheng Wang:
 \begin{table}[!htbp]
   \caption{Overhead Operation Performance}
   \begin{center}
-  \begin{tabular}{|l|l|l|l|l|l|}
-    \hline
-    Operation              & Hardware Est.         & Software Est.         & Prediction            & Mean     \\ \hline
-    \texttt{getticks}      & 8.3 ns                & 2.1 ns                & 10.4 ns               & 18.5 ns\\ \hline
-    \texttt{elapsed}       & 10.4 ns               & 2.1 ns                & 12.5 ns               & 14.4 ns\\ \hline
-    \texttt{for} loop      & 1.2 ns                & 0.8 ns                & 2.0 ns                & 2.8 ns\\ \hline
-    System Call            & 4 ns                  & 3 ns                  & 7 ns                  & 96.94 ns\\ \hline
-    Create Process         & 100 ns                & 100 ns                & 200 ns                & 11.75 ms\\ \hline
-    Create Kernel Process  & 90 ns                 & 90 ns                 & 180 ns                & 28.53 ns\\ \hline
-    Process Switch         & \textless50000 ns     & \textless20000 ns     & \textless70000 ns     & 0.1 mns\\ \hline
-    Kernel Thread Switch   & \textless10000 ns     & \textless10000 ns     & \textless20000 ns     & 88.06 ns\\ \hline
-  \end{tabular}
+    \begin{tabular}{|l|l|l|l|l|l|}
+      \hline
+      Operation             & Hardware          & Software          & Prediction        & Measurement \\ \hline
+      \texttt{getticks}     & 8.3 ns            & 2.1 ns            & 10.4 ns           & 18.5 ns     \\ \hline
+      \texttt{elapsed}      & 10.4 ns           & 2.1 ns            & 12.5 ns           & 14.4 ns     \\ \hline
+      \texttt{for} loop     & 1.2 ns            & 0.8 ns            & 2.0 ns            & 2.8 ns      \\ \hline
+      System Call           & 4 ns              & 3 ns              & 7 ns              & 96.94 ns    \\ \hline
+      Procedure Call        & 1.251 ns          & 8.34 ns           & 9.591 ns          & 20.84ns     \\ \hline
+      Create Process        & 100 ns            & 100 ns            & 200 ns            & 11.75 ms    \\ \hline
+      Create Kernel Process & 90 ns             & 90 ns             & 180 ns            & 28.53 ns    \\ \hline
+      Process Switch        & \textless50000 ns & \textless20000 ns & \textless70000 ns & 0.0286 ms   \\ \hline
+      Kernel Thread Switch  & \textless10000 ns & \textless10000 ns & \textless20000 ns & 9760.8 ns   \\ \hline
+    \end{tabular}
   \end{center}
   \label{table:overview_overhead}
 \end{table}
@@ -964,13 +991,13 @@ Qiheng Wang:
   \caption{Memory Operation Performance}
   \begin{tabular}{|l|l|l|l|l|l|}
     \hline
-    Operation               & Hardware Est. & Software Est. & Prediction & Mean      \\ \hline
-    L1 RAM Access           & 1.6 ns        & 0 ns          & 1.6 ns     & 3 ns      \\ \hline
-    L2 RAM Access           & 3.2 ns        & 0 ns          & 3.2 ns     & 25 ns     \\ \hline
-    Main Memory RAM Access  & 32 ns         & 0 ns          & 32 ns      & 275 ns    \\ \hline
-    Read RAM Bandwidth      & 10.672GB/s    & -             & < 10GB/s   & 5480 MB/s \\ \hline
-    Write RAM Bandwidth     & 10.672GB/s    & -             & < 10GB/s   & 2020 MB/s \\ \hline
-    Page Fault Service Time & 10 ms         & 1 ms          & 11 ms      & 7.4 ms    \\ \hline
+    Operation               & Hardware    & Software    & Prediction & Measurement      \\ \hline
+    L1 RAM Access           & 1.6 ns      & 0 ns        & 1.6 ns     & 3 ns      \\ \hline
+    L2 RAM Access           & 3.2 ns      & 1.6 ns      & 4.8 ns     & 25 ns     \\ \hline
+    Main Memory RAM Access  & 32 ns       & 101.74 ns   & 133.74 ns  & 275 ns    \\ \hline
+    Read RAM Bandwidth      & 10.672GB/s  & 2.085/read  & < 10GB/s   & 5480 MB/s \\ \hline
+    Write RAM Bandwidth     & 10.672GB/s  & 2.085/write & < 10GB/s   & 2020 MB/s \\ \hline
+    Page Fault Service Time & 10 ms       & 1 ms        & 11 ms      & 7.4 ms    \\ \hline
   \end{tabular}
   \label{table:overview_memory}
 \end{table}
@@ -978,20 +1005,20 @@ Qiheng Wang:
 \begin{table}[!htbp]
   \caption{Network Performance}
   \begin{center}
-  \begin{tabular}{|l|l|l|l|l|l|}
-    \hline
-    Operation                              & Mean      \\ \hline
-    TCP remote RTT                         & 0.270ms   \\ \hline
-    TCP loopback RTT                       & 0.0462ms  \\ \hline
-    ICMP remote ping latency               & 0.227ms   \\ \hline
-    ICMP loopback ping latency             & 0.00918ms \\ \hline
-    TCP remote peak bandwidth              & 11.2MB/s  \\ \hline
-    TCP loopback peak bandwidth            & 191MB/s   \\ \hline
-    TCP remote open connection overhead    & 0.252ms   \\ \hline
-    TCP remote close connection overhead   & 0.00702ms \\ \hline
-    TCP loopback open connection overhead  & 0.0486ms  \\ \hline
-    TCP loopback close connection overhead & 0.0350ms  \\ \hline
-  \end{tabular}
+    \begin{tabular}{|l|l|l|l|l|l|}
+      \hline
+      Operation                   & Hardware    & Software & Prediction & Measurement      \\ \hline
+      TCP remote RTT              & -           & -        & -          & 0.270ms   \\ \hline
+      TCP loopback RTT            & -           & -        & -          & 0.0462ms  \\ \hline
+      ICMP remote ping latency    & -           & -        & -          & 0.227ms   \\ \hline
+      ICMP loopback ping latency  & -           & -        & -          & 0.00918ms \\ \hline
+      TCP remote peak bandwidth   & 12.5MB/s    & -        & < 12.5MB/s & 11.2MB/s  \\ \hline
+      TCP loopback peak bandwidth & 1010MB/s    & -        & < 1010MB/s & 191MB/s   \\ \hline
+      TCP remote open overhead    & One RTT     & -        & 0.270ms    & 0.252ms   \\ \hline
+      TCP remote close overhead   & One RTT     & -        & 0.270ms    & 0.00702ms \\ \hline
+      TCP loopback open overhead  & -           & -        & -          & 0.0486ms  \\ \hline
+      TCP loopback close overhead & -           & -        & -          & 0.0350ms  \\ \hline
+    \end{tabular}
   \end{center}
   \label{table:overview_network}
 \end{table}
@@ -1000,13 +1027,13 @@ Qiheng Wang:
   \caption{File System Performance}
   \begin{tabular}{|l|l|l|l|l|l|}
     \hline
-    Operation               & Hardware Est.         & Software Est.         & Prediction            & Mean     \\ \hline
-    File Cache Size         & \textless2GB          & n/a                   & \textless2GB          & 2\textsuperscript{19.6} to 2\textsuperscript{20.6}MB (about 1.13GB)\\ \hline
-    Sequential Read Time    & 6600 ns               & 5 ns                  & 6605 ns               & 175125 ns\\ \hline
-    Random Read Time        & 20600 ns              & 5 ns                  & 20605 ns              & 562180968 ns\\ \hline
-    Remote Read Time        & ns                    & ns                    & ns                    & ns\\ \hline
-    Remote Write Time       & ns                    & ns                    & ns                    & ns\\ \hline
-    Contention              & ns                    & ns                    & ns                    & ns\\ \hline
+    Operation            & Hardware     & Software & Prediction   & Measurement                                                         \\ \hline
+    File Cache Size      & \textless2GB & n/a      & \textless2GB & 2\textsuperscript{19.6} to 2\textsuperscript{20.6}MB (about 1.13GB) \\ \hline
+    Sequential Read Time & 6600 ns      & 5 ns     & 6605 ns      & 175125 ns                                                           \\ \hline
+    Random Read Time     & 20600 ns     & 5 ns     & 20605 ns     & 562180968 ns                                                        \\ \hline
+    Remote Read Time     & ns           & ns       & ns           & ns                                                                  \\ \hline
+    Remote Write Time    & ns           & ns       & ns           & ns                                                                  \\ \hline
+    Contention           & 6600 ns      & 9760ns   & 16360ns      & 701247.53ns                                                         \\ \hline
   \end{tabular}
   \label{table:overview_file}
 \end{table}
@@ -1023,28 +1050,72 @@ Qiheng Wang:
     \resizebox{\columnwidth}{!}{
       \begin{tabular}{|>{\centering\arraybackslash\bfseries}m{1in}|l|l|l|l|}
         \hline
-                                        & Experiment setting                     & mean       & standard deviation \\ \hline
+        & Experiment setting                     & mean       & standard deviation \\ \hline
         \multirow{4}{*}{Experiment 1}   & 100 tests each exp, repeat 100 times   & 0.44231897 & 0.242424045066     \\ \cline{2-4}
-                                        & 1000 tests each exp, repeat 100 times  & 0.6776518  & 0.219758944135     \\ \cline{2-4}
-                                        & 10000 tests each exp, repeat 10 times  & 0.5683592  & 0.201693566034     \\ \cline{2-4}
-                                        & 100000 tests each exp, repeat 10 times & 0.3435085  & 0.0300421961656    \\ \cline{2-4}
+        & 1000 tests each exp, repeat 100 times  & 0.6776518  & 0.219758944135     \\ \cline{2-4}
+        & 10000 tests each exp, repeat 10 times  & 0.5683592  & 0.201693566034     \\ \cline{2-4}
+        & 100000 tests each exp, repeat 10 times & 0.3435085  & 0.0300421961656    \\ \cline{2-4}
         \hline
         \hline
         \multirow{3}{*}{Experiment 2}   & 1000 tests each exp, repeat 100 times  & 0.53642719 & 0.0546326544903    \\ \cline{2-4}
-                                        & 10000 tests each exp, repeat 100 times & 0.51698054 & 0.0853942325217    \\ \cline{2-4}
-                                        & 100000 tests each exp, repeat 10 times & 0.5349342  & 0.0235356311528    \\ \cline{2-4}
+        & 10000 tests each exp, repeat 100 times & 0.51698054 & 0.0853942325217    \\ \cline{2-4}
+        & 100000 tests each exp, repeat 10 times & 0.5349342  & 0.0235356311528    \\ \cline{2-4}
         \hline
         \hline
         \multirow{5}{*}{Experiment 3}   & 10 tests each exp, repeat 100 times    & 0.51347809 & 0.203160319043     \\ \cline{2-4}
-                                        & 100 tests each exp, repeat 100 times   & 0.53865483 & 0.215805711464     \\ \cline{2-4}
-                                        & 1000 tests each exp, repeat 100 times  & 0.53209326 & 0.142340688683     \\ \cline{2-4}
-                                        & 1000 tests each exp, repeat 100 times  & 0.53520504 & 0.146021042698     \\ \cline{2-4}
-                                        & 1000 tests each exp, repeat 100 times  & 0.53520504 & 0.146021042698     \\ \cline{2-4}
+        & 100 tests each exp, repeat 100 times   & 0.53865483 & 0.215805711464     \\ \cline{2-4}
+        & 1000 tests each exp, repeat 100 times  & 0.53209326 & 0.142340688683     \\ \cline{2-4}
+        & 1000 tests each exp, repeat 100 times  & 0.53520504 & 0.146021042698     \\ \cline{2-4}
+        & 1000 tests each exp, repeat 100 times  & 0.53520504 & 0.146021042698     \\ \cline{2-4}
         \hline
       \end{tabular}
     }
   \end{center}
   \label{table:original_tcp_rrt}
+\end{table}
+
+\begin{table}[h]
+  \caption{Machine Specifications for remove server}
+  \begin{center}
+    \resizebox{\columnwidth}{!}{
+      \begin{tabular}{|>{\centering\arraybackslash\bfseries}m{1in}|l|l|}
+        \hline
+        \multirow{8}{*}{Processor}       & Model                                 & Intel\textregistered Core\texttrademark i5 CPU  M 460          \\ \cline{2-3}
+        & Instruction Set                       & 64 bit                                                         \\ \cline{2-3}
+        & Cycle Time                            & 0.395ns(2.53GHz frequency)                                     \\ \cline{2-3}
+        & L1 data cache                         & 32KB per core, 8-way set associative, 64-byte line size        \\ \cline{2-3}
+        & L1 instruction cache                  & 32KB per core, 8-way set associative, 64-byte line size        \\ \cline{2-3}
+        & L2 data cache                         & 256KB, 8-way set associative, 64-byte line size              \\ \cline{2-3}
+        & L3 data cache                         & 3072KB, 12-way set associative, 64-byte line size              \\ \cline{2-3}
+        & FSB                                   & 1066 MHz                                                       \\
+        \hline
+        \multirow{11}{*}{Hard Drive}     & Model                                 & Seagate Momentus\textregistered  5400.6 SATA model ST9320325AS \\ \cline{2-3}
+        & Capacity                              & 320GB                                                          \\ \cline{2-3}
+        & Cache                                 & 8 Mbytes                                                       \\ \cline{2-3}
+        & RPM                                   & 5400                                                           \\ \cline{2-3}
+        & Physical heads                        & 4                                                              \\ \cline{2-3}
+        & Discs                                 & 2                                                              \\ \cline{2-3}
+        & Average Seek Read                     & 14ms typical                                                   \\ \cline{2-3}
+        & Full Stroke Seek                      & 30ms                                                           \\ \cline{2-3}
+        & Average Latency                       & 5.6ms                                                          \\ \cline{2-3}
+        & Track to track seek time              & 1ms typical                                                    \\ \cline{2-3}
+        & I/O data transfer rate                & 300 Mbytes/s max                                               \\
+        \hline
+        \multirow{3}{*}{Memory}          & Capacity                              & Dual channel(symetric), each 1024 MBytes                       \\ \cline{2-3}
+        & Frequency                             & DDR3 PC3-10700 667 MHz                                         \\ \cline{2-3}
+        & Width                                 & 64 bit per channel                                             \\
+        \hline
+        \multirow{2}{*}{Network Card}    & Model                                 & marvell yukon 88e8055                                          \\ \cline{2-3}
+        & Data Transfer Rate                    & 10/100/1000Mbps                                                \\
+        \hline
+        \multicolumn{1}{|>{\bfseries}c|}{\multirow{2}{*}{OS}} & \multirow{2}{*}{ Linux Distribution } & Ubuntu 12.04.4 LTS                        \\
+        & \multicolumn{1}{c|}{}                 & GNU/Linux 3.8.0-35-generic i686           \\
+  % here if use |c| instead of c|, will generate an extra vertical line
+        \hline
+      \end{tabular}
+    } % end of resizebox
+  \end{center}
+  \label{table:machine_description_remote}
 \end{table}
 \begin{table}[h]
   \caption{Machine Specifications for remove server}
