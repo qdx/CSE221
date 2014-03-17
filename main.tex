@@ -1074,21 +1074,21 @@ Qiheng Wang:
 \end{table}
 
 \begin{table}[h]
-  \caption{Machine Specifications for remove server}
+  \caption{Machine Specifications for remote server}
   \begin{center}
     \resizebox{\columnwidth}{!}{
       \begin{tabular}{|>{\centering\arraybackslash\bfseries}m{1in}|l|l|}
         \hline
-        \multirow{8}{*}{Processor}       & Model                                 & Intel\textregistered Core\texttrademark i5 CPU  M 460          \\ \cline{2-3}
+        \multirow{8}{*}{Processor}                                      & Model                                 & Intel\textregistered Core\texttrademark i5 CPU  M 460          \\ \cline{2-3}
         & Instruction Set                       & 64 bit                                                         \\ \cline{2-3}
         & Cycle Time                            & 0.395ns(2.53GHz frequency)                                     \\ \cline{2-3}
         & L1 data cache                         & 32KB per core, 8-way set associative, 64-byte line size        \\ \cline{2-3}
         & L1 instruction cache                  & 32KB per core, 8-way set associative, 64-byte line size        \\ \cline{2-3}
-        & L2 data cache                         & 256KB, 8-way set associative, 64-byte line size              \\ \cline{2-3}
+        & L2 data cache                         & 256KB, 8-way set associative, 64-byte line size                \\ \cline{2-3}
         & L3 data cache                         & 3072KB, 12-way set associative, 64-byte line size              \\ \cline{2-3}
         & FSB                                   & 1066 MHz                                                       \\
         \hline
-        \multirow{11}{*}{Hard Drive}     & Model                                 & Seagate Momentus\textregistered  5400.6 SATA model ST9320325AS \\ \cline{2-3}
+        \multirow{11}{*}{Hard Drive}                                    & Model                                 & Seagate Momentus\textregistered  5400.6 SATA model ST9320325AS \\ \cline{2-3}
         & Capacity                              & 320GB                                                          \\ \cline{2-3}
         & Cache                                 & 8 Mbytes                                                       \\ \cline{2-3}
         & RPM                                   & 5400                                                           \\ \cline{2-3}
@@ -1098,60 +1098,17 @@ Qiheng Wang:
         & Full Stroke Seek                      & 30ms                                                           \\ \cline{2-3}
         & Average Latency                       & 5.6ms                                                          \\ \cline{2-3}
         & Track to track seek time              & 1ms typical                                                    \\ \cline{2-3}
-        & I/O data transfer rate                & 300 Mbytes/s max                                               \\
+        & I/O data transfer rate                & 2400 Mbytes/s max                                              \\
         \hline
-        \multirow{3}{*}{Memory}          & Capacity                              & Dual channel(symetric), each 1024 MBytes                       \\ \cline{2-3}
-        & Frequency                             & DDR3 PC3-10700 667 MHz                                         \\ \cline{2-3}
+        \multirow{3}{*}{Memory}                                         & Capacity                              & Dual channel(symetric), each 2048 MBytes                       \\ \cline{2-3}
+        & Frequency                             & DDR3 PC3-10700 1067 MHz                                        \\ \cline{2-3}
         & Width                                 & 64 bit per channel                                             \\
         \hline
-        \multirow{2}{*}{Network Card}    & Model                                 & marvell yukon 88e8055                                          \\ \cline{2-3}
+        \multirow{2}{*}{Network Card}                                   & Model                                 & JMC250 PCI Express Gigabit Ethernet Controller                 \\ \cline{2-3}
         & Data Transfer Rate                    & 10/100/1000Mbps                                                \\
         \hline
-        \multicolumn{1}{|>{\bfseries}c|}{\multirow{2}{*}{OS}} & \multirow{2}{*}{ Linux Distribution } & Ubuntu 12.04.4 LTS                        \\
-        & \multicolumn{1}{c|}{}                 & GNU/Linux 3.8.0-35-generic i686           \\
-  % here if use |c| instead of c|, will generate an extra vertical line
-        \hline
-      \end{tabular}
-    } % end of resizebox
-  \end{center}
-  \label{table:machine_description_remote}
-\end{table}
-\begin{table}[h]
-  \caption{Machine Specifications for remove server}
-  \begin{center}
-    \resizebox{\columnwidth}{!}{
-      \begin{tabular}{|>{\centering\arraybackslash\bfseries}m{1in}|l|l|}
-        \hline
-        \multirow{8}{*}{Processor}       & Model                                 & Intel\textregistered Core\texttrademark i5 CPU  M 460          \\ \cline{2-3}
-                                         & Instruction Set                       & 64 bit                                                         \\ \cline{2-3}
-                                         & Cycle Time                            & 0.395ns(2.53GHz frequency)                                     \\ \cline{2-3}
-                                         & L1 data cache                         & 32KB per core, 8-way set associative, 64-byte line size        \\ \cline{2-3}
-                                         & L1 instruction cache                  & 32KB per core, 8-way set associative, 64-byte line size        \\ \cline{2-3}
-                                         & L2 data cache                         & 256KB, 8-way set associative, 64-byte line size                \\ \cline{2-3}
-                                         & L3 data cache                         & 3072KB, 12-way set associative, 64-byte line size              \\ \cline{2-3}
-                                         & FSB                                   & 1066 MHz                                                       \\
-        \hline
-        \multirow{11}{*}{Hard Drive}     & Model                                 & Seagate Momentus\textregistered  5400.6 SATA model ST9320325AS \\ \cline{2-3}
-                                         & Capacity                              & 320GB                                                          \\ \cline{2-3}
-                                         & Cache                                 & 8 Mbytes                                                       \\ \cline{2-3}
-                                         & RPM                                   & 5400                                                           \\ \cline{2-3}
-                                         & Physical heads                        & 4                                                              \\ \cline{2-3}
-                                         & Discs                                 & 2                                                              \\ \cline{2-3}
-                                         & Average Seek Read                     & 14ms typical                                                   \\ \cline{2-3}
-                                         & Full Stroke Seek                      & 30ms                                                           \\ \cline{2-3}
-                                         & Average Latency                       & 5.6ms                                                          \\ \cline{2-3}
-                                         & Track to track seek time              & 1ms typical                                                    \\ \cline{2-3}
-                                         & I/O data transfer rate                & 2400 Mbytes/s max                                               \\
-        \hline
-        \multirow{3}{*}{Memory}          & Capacity                              & Dual channel(symetric), each 2048 MBytes                       \\ \cline{2-3}
-                                         & Frequency                             & DDR3 PC3-10700 1067 MHz                                         \\ \cline{2-3}
-                                         & Width                                 & 64 bit per channel                                             \\
-        \hline
-        \multirow{2}{*}{Network Card}    & Model                                 & JMC250 PCI Express Gigabit Ethernet Controller                 \\ \cline{2-3}
-                                         & Data Transfer Rate                    & 10/100/1000Mbps                                                \\
-        \hline
-        \multicolumn{1}{|>{\bfseries}c|}{\multirow{2}{*}{OS}} & \multirow{2}{*}{ Linux Distribution } & Linux Mint 15 Olivia                        \\
-                                                              & \multicolumn{1}{c|}{}                 & GNU/Linux 3.8.0-35-generic x86\_64           \\
+        \multicolumn{1}{|>{\bfseries}c|}{\multirow{2}{*}{OS}}           & \multirow{2}{*}{ Linux Distribution } & Linux Mint 15 Olivia                                           \\
+        & \multicolumn{1}{c|}{}                 & GNU/Linux 3.8.0-35-generic x86\_64                             \\
   % here if use |c| instead of c|, will generate an extra vertical line
         \hline
       \end{tabular}
