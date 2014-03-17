@@ -488,7 +488,25 @@ orders without much complexity, and it's more trackable to debug.
 \section{Memory}
 \subsection{RAM access time}
 \subsubsection{Experiment Methodology}
-Our methodology was planned based on the experiments that were done in the lmbench paper. In order to measure the time required to access the two caches and main memory with the least amount of overhead, we chose to do memory accesses using integer arrays. We created arrays of different sizes ranging from KB to 1GB with different strides ranging from 512B to 32KB. With each combination of array size and stride length, we performed 1000000 integer accesses just as the lmbench paper did. While they performed p = *p; in their paper, we did the C++ respective version. Some of the problems that we encountered in our creation of the methodology included pre-fetching. In order to bypass this behavior, we followed the lmbench paper and performed random accesses to the array. In order to bypass the possibility of our random number generator generating the same number, we preloaded integers within the array itself that acts as the location of the next integer access in the array that also takes into account the stride. When running the code, the initial location is randomly accessed. The time of these 1,000,000 accesses were then averaged and given as the time of access for that particular combination of array size and stride length. All time calculations took into account the overhead times involved. The entire experiment was done 10 times, and the average is show in the results below.
+Our methodology was planned based on the experiments that were done in
+the lmbench paper. In order to measure the time required to access the
+two caches and main memory with the least amount of overhead, we chose to
+do memory accesses using integer arrays. We created arrays of different
+sizes ranging from KB to 1GB with different strides ranging from 512B to
+32KB\@. With each combination of array size and stride length, we performed
+1000000 integer accesses just as the lmbench paper did. While they performed
+p = *p; in their paper, we did the C++ respective version. Some of the
+problems that we encountered in our creation of the methodology included
+pre-fetching. In order to bypass this behavior, we followed the lmbench
+paper and performed random accesses to the array. In order to bypass the
+possibility of our random number generator generating the same number, we
+preloaded integers within the array itself that acts as the location of the
+next integer access in the array that also takes into account the stride.
+When running the code, the initial location is randomly accessed. The time
+of these 1,000,000 accesses were then averaged and given as the time of
+access for that particular combination of array size and stride length. All
+time calculations took into account the overhead times involved. The entire
+experiment was done 10 times, and the average is show in the results below.
 
 \subsubsection{Prediction}
 From previous experiments, we noticed how difficult it was to estimate the exact numbers for time of access. Therefore, our prediction for this part will be done on what we believe the graph will look like. Based on the fact that accessing the L1 cache is several times faster than accessing the L2 cache, we believe that there will be at least two plateaus and two sharp inclines on the graph. The inclines represent the increase in time necessary to access the L2 cache and the main memory. Based on the hardware specifications, these two inclines should be at the 32KB and 3072KB mark. The plateaus will be a result of the time to access memory from within the cache. Because we are dealing with larger amounts of memory in larger quantities, the numbers were also predicted to be much larger than what we have seen in previous experiments. We also expect a small amount of latency required to access elements in arrays of sizes smaller than the L1 cache. We expect to be about 4 cycle's time or about 1.6 ns.
@@ -504,7 +522,16 @@ From previous experiments, we noticed how difficult it was to estimate the exact
 \subsubsection{Result Discussion}
 In the results graph, we can see a clear staircase shape similar to what we have expected. We see that accessing memory less than the size of the L1 cache (from 10 to 15 on the graph's x-axis) is constant. The increase in time at 32KB shows that we are now accessing memory outside of what the L1 cache can hold. The relative plateau formation from 32KB to 3072KB (from 15 to 21 on the graph's x-axis) shows the latency of accessing L2 cache. Then there is an extreme incline in latency thereafter which represents the difference in time needed to access the main memory compared to the L2 cache.
 
-An unexpected result was the small dip found in the 128KB region. This may be a result of the possible situation where the stride is not large enough in comparison to the array size. This would mean that the next integer to access would be within some bytes range that was already cached. We can see these smaller dips prevalent throughout the entire graph in different place and in varying degrees. Therefore, for the analysis of our methodology, our method was not completely perfect and there were situation as such that we did not consider. However, for the most part, the methodology is correct. The result shows the trend that we have expected and also matches with what McVoy et. al. reported in the lmbench paper.
+An unexpected result was the small dip found in the 128KB region. This may be
+a result of the possible situation where the stride is not large enough in
+comparison to the array size. This would mean that the next integer to access
+would be within some bytes range that was already cached. We can see these
+smaller dips prevalent throughout the entire graph in different place and in
+varying degrees. Therefore, for the analysis of our methodology, our method
+was not completely perfect and there were situation as such that we did not
+consider. However, for the most part, the methodology is correct. The result
+shows the trend that we have expected and also matches with what McVoy et al.\
+reported in the lmbench paper.
 
 
 \subsection{RAM bandwidth}
@@ -526,7 +553,7 @@ However, in case where cache is used, this will not be a good guess. With cache,
 We also predict that memory write bandwidth would be slower than read bandwidth, since there are more extra work to do for operating system than reading.\\
 
 \subsubsection{Experiment Results}
-Our results are shown in Figure \ref{fig:ram_bw}, and Table \ref{table:mem_bw} \\
+Our results are shown in Figure~\ref{fig:ram_bw}, and Table~\ref{table:mem_bw} \\
 
 \begin{table}
   \begin{center}
@@ -579,12 +606,19 @@ A page fault occurs when the OS tries to fetch a page that was swapped out from 
 \subsubsection{Experiment Methodology}
 One neat way to conduct the measurement is to use mmap (memory mapped files). The mmap function is a system call that directly maps a file to the virtual memory space of the calling process.Upon mapping, the actual data won\'t be copied into main memory until accessed by the process. This is because the mmap approach is using lazy loading, which makes it perfect for our measurement of a page fault service time.
 
-The experiment is devided into two steps; first part is to prove that a page fault occurces when sequentially accessing the file; second part is to calculate the average service time during a page fault.
-Both of the experiments are run against a dummy file we created with the same repeated letters, size 400KB. The page size of the system is 4KB, which is got from a sysconf system call.
+The experiment is devided into two steps; first part is to prove that a page
+fault occurces when sequentially accessing the file; second part is to
+calculate the average service time during a page fault.  Both of the
+experiments are run against a dummy file we created with the same repeated
+letters, size 400KB\@. The page size of the system is 4KB, which is got from a
+sysconf system call.
 
 In the first experiment, since the mmap returns a pointer to the starting address where the file is mapped in the virtual memory, we iterate the pointer through all letters in the file, that is we are accessing one byte at a time. Since the file is loaded into the physical memory page by page, this would force a page fault accessing the file every 4KB (size of one page in the system). We decide to do a backward scan on moving the pointer in case of a potential read-ahead.
 
-In the second experiment, we set the scan stride to be 4KB. This forces a page fault every byte of access in that mmap loads the file from disk to physical memory page by page, thus gives us a measurable results to calculate the average.
+In the second experiment, we set the scan stride to be 4KB\@. This forces a page
+fault every byte of access in that mmap loads the file from disk to physical
+memory page by page, thus gives us a measurable results to calculate the
+average.
 We iterate 10,000 times mmap-ing and munmap-ing the file, and access a byte every 4KB to the file. Since the size of the file is 400KB, this gives us 1,000,000 samples.
 One thing to notice is that to repeat the measurement,  the file may be kept in the file system buffer cache. Therefore, the buffer cache should be flushed out during each iteration to get an accurate result.
 
@@ -636,7 +670,10 @@ We also tested roundtrip time under different server queue size, some interestin
 Since complex network routing will significantly affect the stability of experiment, we used direct cable connection for our experiment. This will avoid any disturbance of out side network traffic. \\
 The specification of the other machine which is used as server is give in form \\ %TODO \ref{fig:server}add the spec form here
 When measuring roundtrip time(RTT), we expect RRT would be much smaller when measuring loopback interface than measuring remote interface, since the operation involved in a packet transfer locally is essentially memory copy operation, which we would expect would be at least one order of magnitude faster than actually transfering packet in the network. When measuring ping latency, we expect the same behavior. We also expect that pinging loopback interface would be at least one order of magnitude faster than pinging remote interface. \\
-When comparing RRT and ping latency, we predict that RRT measured through TCP would be slightly slower than ping, since ICMP is stateless, there should be less overhead than TCP RRT. We expect the performance different be within one order of magnitude.\\
+When comparing RRT and ping latency, we predict that RRT measured through TCP
+would be slightly slower than ping, since ICMP is stateless, there should be
+less overhead than TCP RRT\@. We expect the performance different be within one
+order of magnitude.\\
 \subsubsection{Experiment Results}
 
 \begin{table}
@@ -652,8 +689,20 @@ When comparing RRT and ping latency, we predict that RRT measured through TCP wo
   \end{center}
 \end{table}
 
-Table \ref{table:roundtrip} shows the mean time it took for a single ping request and TCP RTT with standard deviation. In In this table, ICMP was tested 1000 times for each of the 100 experiments, and TCP RTT was tested 100000 times for each of the 10 experiments. The ICMP ping seems to be very stable, we did not further test other experiment settings. However, TCP RTT is not as stable as ICMP ping. We tested a few different experiment settings, the data in this table is the most stable one we got. Our original data can be found in the appendix. We will discuss this phenomenon in the next section. \\
-In addition to the data we showed in table \ref{table:roundtrip}, we also observed a min round trip time of about 0.270ms and max round trip time of about 0.794ms. In this case, we actually prefer to see the min value as the actual round trip time, since the transmission time on wire is not avoidable. Based on that, any other disturbance should be rule out. Not to mention our original data is not very stable.\\
+Table~\ref{table:roundtrip} shows the mean time it took for a single ping
+request and TCP RTT with standard deviation. In In this table, ICMP was tested
+1000 times for each of the 100 experiments, and TCP RTT was tested 100000 times
+for each of the 10 experiments. The ICMP ping seems to be very stable, we did
+not further test other experiment settings. However, TCP RTT is not as stable
+as ICMP ping. We tested a few different experiment settings, the data in this
+table is the most stable one we got. Our original data can be found in the
+appendix. We will discuss this phenomenon in the next section. \\
+In addition to the data we showed in table~\ref{table:roundtrip}, we also
+observed a min round trip time of about 0.270ms and max round trip time of
+about 0.794ms. In this case, we actually prefer to see the min value as the
+actual round trip time, since the transmission time on wire is not avoidable.
+Based on that, any other disturbance should be rule out. Not to mention our
+original data is not very stable.\\
 
 \subsubsection{Result Discussion}
 The experiment results matched most of our predictions. TCP RTT performs one order of magnitude slower on direct connection cable than loopback interface. ICMP ping time increase in direct cable connection more than one order of magnitude, which is a little more than we expected, but is actually reasonable. When executed on loopback interface, the actual transmit time is only a small portion of the overhead. However, when executed on a remote connection, the time to transmit and read the data from NIC become critical. That is why the difference between TCP RTT and ICMP ping on direct cable connection is much less than on loopback interface. Actual transmit time dominated the whole processing time.\\
@@ -672,7 +721,7 @@ Like the RTT experiment, we used a direct cable connection to measure peak bandw
 For loopback interface, we expect the bandwidth to be much higher, since it is bounded by the speed of memory operation. Loopback interface is actually a buffer treated like file in memory, thus sending data to loopback interface is essentially copying memory data. Because we don't know how exactly such operations are performed, we are not able to make any specific guess. Though we know such kind of copying is much slower than mere ram read bandwidth, which we measured in previous sections. So, we predict loopback interface peak bandwidth to be smaller than mem ram bandwidth, but should be within 1 order of magnitude. \\
 \subsubsection{Experiment Results}
 
-Figure \ref{table:peak_bandwidth} shows our experiment result in MB/s. Each experiment for cable connection and loopback interface with queue size of 5 is repeated 10 times to get the mean value and standard deviation. We did not measure bandwidth when transferring 1000MB remotely, because we think the result we get from transferring 10MB and 100MB are already stable enough. Also, it is too time consuming to repeat such an experiment to get a stable result.\\
+Figure~\ref{table:peak_bandwidth} shows our experiment result in MB/s. Each experiment for cable connection and loopback interface with queue size of 5 is repeated 10 times to get the mean value and standard deviation. We did not measure bandwidth when transferring 1000MB remotely, because we think the result we get from transferring 10MB and 100MB are already stable enough. Also, it is too time consuming to repeat such an experiment to get a stable result.\\
 We did loopback experiments with queue size of 100 after we finished the previous experiments. We realized that queue size may affect performance significantly, so we added these experiments. Each of these experiments is reprepeated 100 times to get stable mean and standard deviation.\\
 
 \begin{table}
@@ -702,7 +751,11 @@ We set the server to block on read after connection is established, so that it i
 \subsubsection{Setup and Prediction}
 Like the previous experiments, we used direct cable connection between the server and client machine.\\
 TCP connection establishment need 3 handshakes, so we expect to observe a connection overhead of at about 1 RTT for remote connection. For local connection, since round trip time is just memory operation, we expect it to be a little bit longer than local RTT time, since there will be more data structure initialization than simply sending data.\\
-When closing a TCP connection, the client should send a FIN to server and wait for FIN from server to actually close the connection, then send an ACK to that FIN. So, the closing of a TCP connection should cost 1 RTT too. However, we think the operating system may chose to do this asynchronously, so that we cannot actually measure this closing behavior.\\
+When closing a TCP connection, the client should send a FIN to server and wait
+for FIN from server to actually close the connection, then send an ACK to that
+FIN\@. So, the closing of a TCP connection should cost 1 RTT too. However, we
+think the operating system may chose to do this asynchronously, so that we
+cannot actually measure this closing behavior.\\
 
 \subsubsection{Experiment Results}
 
@@ -719,10 +772,18 @@ When closing a TCP connection, the client should send a FIN to server and wait f
   \end{center}
 \end{table}
 
-Table \ref{table:tcp_overhead} showed the overhead for establishing and destroying a TCP connection. Each experiment include 100 times to open and close a TCP connection, each experiment is repeated for 100 times.\\
+Table~\ref{table:tcp_overhead} showed the overhead for establishing and destroying a TCP connection. Each experiment include 100 times to open and close a TCP connection, each experiment is repeated for 100 times.\\
 
 \subsubsection{Result Discussion}
-The result roughly matched our prediction very well. But one problem is that, from our previous experiments, we have a measured TCP RTT of about 0.50ms. While here, our TCP connection open overhead is just 0.25ms, which is half of TCP RTT. This is abnormal because the client have to wait at least for one round trip time to receive the SYN signal from server. After that, the client can send ACK asynchronously. Like what we have explained in the round trip section, we prefer to choose the minimum round trip time that we measured as the actual round trip time. If that is the case, the connection overhead we measured here matched the TCP handshake behavior.\\
+The result roughly matched our prediction very well. But one problem is that,
+from our previous experiments, we have a measured TCP RTT of about 0.50ms.
+While here, our TCP connection open overhead is just 0.25ms, which is half of
+TCP RTT\@. This is abnormal because the client have to wait at least for one
+round trip time to receive the SYN signal from server. After that, the client
+can send ACK asynchronously. Like what we have explained in the round trip
+section, we prefer to choose the minimum round trip time that we measured as
+the actual round trip time. If that is the case, the connection overhead we
+measured here matched the TCP handshake behavior.\\
 In terms of close operation, since linux treat loopback interface as a file, when closing connection with close, it is more likely to just close the file descriptor. Then the operating system handles the actual work of destroying the connection with the server. Quoting from Gnu c library manual online\cite{GNU}, ``If there is still data waiting to be transmitted over the connection, normally close tries to complete this transmission.''. Although it is said so in the manual, we observed some behavior which may indicate that the client did not actually tries to negotiate the closing of the connection with server at all. We found sometimes establishing a connection on the same port number after a previous experiment finished is not allowed by the system, saying that ``binding to socket failed: Address already in use''. In conclusion, no matter the operating system negotiated the closing of the connection with the server or not, it should have done it asynchronously, so that we cannot measure that behavior in our experiment. \\
 
 %============================= section ==========================%
@@ -731,10 +792,22 @@ In terms of close operation, since linux treat loopback interface as a file, whe
 %----------------------------- subsection --------------------------%
 \subsection{Size of cache}
 \subsubsection{Experiment Methodology}
-In order to estimate the size of the file cache, we created a variety of files with sizes ranging from 50MB to 2GB. With each different file, we measured the time it took to read the file over an average of 10 times per file. This idea behind the methodology comes from the idea that attempting to read within a file that fits within a cache will have relatively the same read time. However, as soon as we have a file whose size is larger than the cache size and we try to access a part of the file outside of the cache, the read time will be much larger. Therefore, we attempted to read from a variety of file sizes in order to capture the size at which the large read time occurs. The large jump in read time will indicate to us the size of the file cache of the system.
+In order to estimate the size of the file cache, we created a variety of files
+with sizes ranging from 50MB to 2GB\@. With each different file, we measured the
+time it took to read the file over an average of 10 times per file. This idea
+behind the methodology comes from the idea that attempting to read within a
+file that fits within a cache will have relatively the same read time. However,
+as soon as we have a file whose size is larger than the cache size and we try
+to access a part of the file outside of the cache, the read time will be much
+larger. Therefore, we attempted to read from a variety of file sizes in order
+to capture the size at which the large read time occurs. The large jump in read
+time will indicate to us the size of the file cache of the system.
 
 \subsubsection{Prediction}
-We can safely say that the size of the cache will be smaller than main memory, which is 2GB. Since the OS will take a large portion of the main memory for file system cache, we predict that the file cache size will be less than half of the size of main memory, <1GB.
+We can safely say that the size of the cache will be smaller than main memory,
+which is 2GB\@. Since the OS will take a large portion of the main memory for
+file system cache, we predict that the file cache size will be less than half
+of the size of main memory, <1GB.
 
 \subsubsection{Experiment Results}
 
@@ -748,14 +821,25 @@ We can safely say that the size of the cache will be smaller than main memory, w
 The results can be found in figure~\ref{fig:file_cache_size}.
 
 \subsubsection{Result Discussion}
-The results show that there is a small increase in read time at 200KB. From there, we have a very small increase in read time until 776MB (2\textsuperscript{19.6} KB). The read time then begins to level out again towards the end after 1.5GB (2\textsuperscript{20.6} KB). This indicates to us that the file cache size is a little larger than 776MB. We are able to deduce this from the relationship between file cache hits and the size of the file. If the file is able to fit within the cache, then we will be reading from caches and thus have a relatively stable reading time for all files of sizes that fit within the cache. Those files that are too large to fit in the cache, however, will cause cache misses and thus longer time to fetch from outside of the cache. This increase in time can be seen at around 776MB, which indicates to us that this is the relative size of the file cache.
+The results show that there is a small increase in read time at 200KB\@. From
+there, we have a very small increase in read time until 776MB
+(2\textsuperscript{19.6} KB). The read time then begins to level out again
+towards the end after 1.5GB (2\textsuperscript{20.6} KB). This indicates to us
+that the file cache size is a little larger than 776MB\@. We are able to deduce
+this from the relationship between file cache hits and the size of the file. If
+the file is able to fit within the cache, then we will be reading from caches
+and thus have a relatively stable reading time for all files of sizes that fit
+within the cache. Those files that are too large to fit in the cache, however,
+will cause cache misses and thus longer time to fetch from outside of the
+cache. This increase in time can be seen at around 776MB, which indicates to us
+that this is the relative size of the file cache.
 
 Overall, our methodology was successful in helping us attain the information we required. However, to pinpoint the size of the cache more clearly, future experiments will benefit form decreasing the rate in which we are increasing the file sizes. As vague as our estimates may have been, our estimates were accurate relative to the information attained from the experiment. The experiment does, however, give us a fairly loose range from which we can expect our cache size to be.
 
 \subsection{File read time}
 
 \subsubsection{Experiment Methodology}
-The basis of our experiment is to perform both sequential and random reads from files of different sizes, which we made to range from 8KB to 200MG. The purpose of this experiment was to compare and contrast the read time for sequential and random reads. In order to do so, we needed to use a raw device to ensure that we were not measuring cached data. As a point of clarification, a raw device is a special block device file that bypasses the OS's caches and buffers. However, raw devices were deprecated on Linux systems, therefore we alternatively used the \texttt{O\_DIRECT} and \texttt{O\_SYNC} flags associated with the \texttt{open()} system call. The \texttt{O\_DIRECT} flag ensures that the file is not brought into the file buffer cache, and every read goes to the disk. The \texttt{O\_SYNC} flag ensures that the reads were performed synchronously.
+The basis of our experiment is to perform both sequential and random reads from files of different sizes, which we made to range from 8KB to 200MG\@. The purpose of this experiment was to compare and contrast the read time for sequential and random reads. In order to do so, we needed to use a raw device to ensure that we were not measuring cached data. As a point of clarification, a raw device is a special block device file that bypasses the OS's caches and buffers. However, raw devices were deprecated on Linux systems, therefore we alternatively used the \texttt{O\_DIRECT} and \texttt{O\_SYNC} flags associated with the \texttt{open()} system call. The \texttt{O\_DIRECT} flag ensures that the file is not brought into the file buffer cache, and every read goes to the disk. The \texttt{O\_SYNC} flag ensures that the reads were performed synchronously.
 We also verified that the file is not brought into the cache by observing the output of the \texttt{vmstat} command in linux. For reading sequential blocks, we simply used read() and put time markers for benchmarking around the read commands for reading an entire file. The random reads were harder to perform because we had to indicate where to fetch the next block. In order to do so, we used lseek() along with read(). The overall methodology for benchmarking random file accesses was the same as sequential accesses except for the need to use lseek() to indicate the amount to bytes to offset before starting the read. All reads for different file sizes were done 100 times and the average was taken per block.
 
 \subsubsection{Prediction}
@@ -774,7 +858,21 @@ The results can be found in figure~\ref{fig:file_read_times}.
 
 
 \subsubsection{Result Discussion}
-We will now consider the results of the experiment as it currently stands. For the sequential read, we see that there is a slight decreasing trend initially. This was what we had anticipated in our estimations where we see that the sequential reads are taking advantage locality and pre-fetching. However, we don't see the same pattern in random reads because of the randomness with which we area accessing the files' data. We see a slight increase in both sequential and random file reading at around 2\textsuperscript{9.6}KB and an even more drastic increase in time at 2\textsuperscript{19.6}KB. The larger increase is due to files exceeding the size of the file cache, which we did not take into account in our estimation. This increase is more drastic for random reads because we are essentially making random reads from disk. This means that there will be extra time needed to find the different blocks on disk. Compared to sequential read which doesn't require jumping around to seek on the disk, there is a larger increase in read time for random reads once the file exceeds cache size.
+We will now consider the results of the experiment as it currently stands. For
+the sequential read, we see that there is a slight decreasing trend initially.
+This was what we had anticipated in our estimations where we see that the
+sequential reads are taking advantage locality and pre-fetching. However, we
+don't see the same pattern in random reads because of the randomness with which
+we area accessing the files' data. We see a slight increase in both sequential
+and random file reading at around 2\textsuperscript{9.6}KB and an even more
+drastic increase in time at 2\textsuperscript{19.6}KB\@. The larger increase is
+due to files exceeding the size of the file cache, which we did not take into
+account in our estimation. This increase is more drastic for random reads
+because we are essentially making random reads from disk. This means that there
+will be extra time needed to find the different blocks on disk. Compared to
+sequential read which doesn't require jumping around to seek on the disk, there
+is a larger increase in read time for random reads once the file exceeds cache
+size.
 
 Our methodology was successful overall as we can see the difference in time needed to make sequential and random read from different sized files. However, there is room for improvement. Had we ran the benchmarking for read times with a larger upper bound, we can expect to see when the read time for random reads will begin to plateau. This is the point in which the read time for a block will be dominated mostly by random read time from disk. Because we are measuring the average read over 100 iterations, we decided to end the testing prematurely due to time constraints.
 
@@ -959,7 +1057,7 @@ Qiheng Wang:
                                          & Cycle Time                            & 0.395ns(2.53GHz frequency)                                     \\ \cline{2-3}
                                          & L1 data cache                         & 32KB per core, 8-way set associative, 64-byte line size        \\ \cline{2-3}
                                          & L1 instruction cache                  & 32KB per core, 8-way set associative, 64-byte line size        \\ \cline{2-3}
-                                         & L2 data cache                         & 256KB, 8-way set associative, 64-byte line size              \\ \cline{2-3}
+                                         & L2 data cache                         & 256KB, 8-way set associative, 64-byte line size                \\ \cline{2-3}
                                          & L3 data cache                         & 3072KB, 12-way set associative, 64-byte line size              \\ \cline{2-3}
                                          & FSB                                   & 1066 MHz                                                       \\
         \hline
