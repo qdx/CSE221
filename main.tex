@@ -888,8 +888,37 @@ On the server machine,  we enable the file sharing and add the permission for th
 The testing schedule is exactly the same as what we mentioned in the previous section, except the target file is changed to /mnt/remote.
 
 \subsubsection{Prediction}
+We expected that sequential access will always be faster than random access, no mater in local or remote.
 \subsubsection{Experiment Results}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[scale=.3]{file_read_times_remote.png}
+  \caption{Left x-axis is the size of file and y-axis is average read time per block. Both are on log scale.}
+  \label{fig:file_read_times_remote}
+\end{figure}
+
+The results can be found in figure~\ref{fig:file_read_times_remote}.
 \subsubsection{Result Discussion}
+From the result above, we can see the huge difference between remote access and local access rate. The
+penalty of network is significant, even in the wired environment.
+
+\begin{table}[h]
+\centering
+\caption{Network Penalty}
+\begin{tabular}{|l|c|c|c|}
+\hline
+                  & Local   & NFS     & Network Penalty \\
+\hline
+Sequential Access & 0.072ms & 0.587ms & 0.515ms         \\
+\hline
+Random Access     & 1.61ms  & 5.89ms  & 4.28ms          \\
+\hline
+\end{tabular}
+\label{table:penalty}
+\end{table}
+
+Table~\ref{table:penalty} shows the corresponding network penalty in terms of sequential and random access.
 
 \subsection{Contention}
 
