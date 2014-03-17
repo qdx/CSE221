@@ -488,10 +488,10 @@ orders without much complexity, and it's more trackable to debug.
 \section{Memory}
 \subsection{RAM access time}
 \subsubsection{Experiment Methodology}
-Our methodology was planned based on the experiments that were done in the lmbench paper. In order to measure the time required to access the two caches and main memory with the least amount of overhead, we chose to do memory accesses using integer arrays. We created arrays of different sizes ranging from KB to 1GB with different strides ranging from 512B to 32KB. With each combination of array size and stride length, we performed 1000000 integer accesses just as the lmbench paper did. While they performed p = *p; in their paper, we did the C++ respective version. Some of the problems that we encountered in our creation of the methodology included pre-fetching. In order to bypass this behavior, we followed the lmbench paper and performed random accesses to the array. In order to bypass the possibility of our random number generator generating the same number, we preloaded integers within the array itself that acts as the location of the next integer access in the array that also takes into account the stride. When running the code, the initial location is randomly accessed. The time of these 1,000,000 accesses were then averaged and given as the time of access for that particular combination of array size and stride length. All time calculations took into account the overhead times involved. The entire experiment was done 10 times, and the average is show in the results below.  
+Our methodology was planned based on the experiments that were done in the lmbench paper. In order to measure the time required to access the two caches and main memory with the least amount of overhead, we chose to do memory accesses using integer arrays. We created arrays of different sizes ranging from KB to 1GB with different strides ranging from 512B to 32KB. With each combination of array size and stride length, we performed 1000000 integer accesses just as the lmbench paper did. While they performed p = *p; in their paper, we did the C++ respective version. Some of the problems that we encountered in our creation of the methodology included pre-fetching. In order to bypass this behavior, we followed the lmbench paper and performed random accesses to the array. In order to bypass the possibility of our random number generator generating the same number, we preloaded integers within the array itself that acts as the location of the next integer access in the array that also takes into account the stride. When running the code, the initial location is randomly accessed. The time of these 1,000,000 accesses were then averaged and given as the time of access for that particular combination of array size and stride length. All time calculations took into account the overhead times involved. The entire experiment was done 10 times, and the average is show in the results below.
 
 \subsubsection{Prediction}
-From previous experiments, we noticed how difficult it was to estimate the exact numbers for time of access. Therefore, our prediction for this part will be done on what we believe the graph will look like. Based on the fact that accessing the L1 cache is several times faster than accessing the L2 cache, we believe that there will be at least two plateaus and two sharp inclines on the graph. The inclines represent the increase in time necessary to access the L2 cache and the main memory. Based on the hardware specifications, these two inclines should be at the 32KB and 3072KB mark. The plateaus will be a result of the time to access memory from within the cache. Because we are dealing with larger amounts of memory in larger quantities, the numbers were also predicted to be much larger than what we have seen in previous experiments. We also expect a small amount of latency required to access elements in arrays of sizes smaller than the L1 cache. We expect to be about 4 cycle's time or about 1.6 ns. 
+From previous experiments, we noticed how difficult it was to estimate the exact numbers for time of access. Therefore, our prediction for this part will be done on what we believe the graph will look like. Based on the fact that accessing the L1 cache is several times faster than accessing the L2 cache, we believe that there will be at least two plateaus and two sharp inclines on the graph. The inclines represent the increase in time necessary to access the L2 cache and the main memory. Based on the hardware specifications, these two inclines should be at the 32KB and 3072KB mark. The plateaus will be a result of the time to access memory from within the cache. Because we are dealing with larger amounts of memory in larger quantities, the numbers were also predicted to be much larger than what we have seen in previous experiments. We also expect a small amount of latency required to access elements in arrays of sizes smaller than the L1 cache. We expect to be about 4 cycle's time or about 1.6 ns.
 
 \subsubsection{Experiment Results}
 \begin{figure}[!htb]
@@ -502,7 +502,7 @@ From previous experiments, we noticed how difficult it was to estimate the exact
 \end{figure}
 
 \subsubsection{Result Discussion}
-In the results graph, we can see a clear staircase shape similar to what we have expected. We see that accessing memory less than the size of the L1 cache (from 10 to 15 on the graph's x-axis) is constant. The increase in time at 32KB shows that we are now accessing memory outside of what the L1 cache can hold. The relative plateau formation from 32KB to 3072KB (from 15 to 21 on the graph's x-axis) shows the latency of accessing L2 cache. Then there is an extreme incline in latency thereafter which represents the difference in time needed to access the main memory compared to the L2 cache. 
+In the results graph, we can see a clear staircase shape similar to what we have expected. We see that accessing memory less than the size of the L1 cache (from 10 to 15 on the graph's x-axis) is constant. The increase in time at 32KB shows that we are now accessing memory outside of what the L1 cache can hold. The relative plateau formation from 32KB to 3072KB (from 15 to 21 on the graph's x-axis) shows the latency of accessing L2 cache. Then there is an extreme incline in latency thereafter which represents the difference in time needed to access the main memory compared to the L2 cache.
 
 An unexpected result was the small dip found in the 128KB region. This may be a result of the possible situation where the stride is not large enough in comparison to the array size. This would mean that the next integer to access would be within some bytes range that was already cached. We can see these smaller dips prevalent throughout the entire graph in different place and in varying degrees. Therefore, for the analysis of our methodology, our method was not completely perfect and there were situation as such that we did not consider. However, for the most part, the methodology is correct. The result shows the trend that we have expected and also matches with what McVoy et. al. reported in the lmbench paper.
 
@@ -577,19 +577,19 @@ It is reasonable to see how standard deviation bump up when cache boundary is re
 \subsection{Page fault service time}
 A page fault occurs when the OS tries to fetch a page that was swapped out from the physical memory, and thereby it needs a further fetch from the disk. Measuring the page fault service time means measuring the time interval between a page fault occurance and loading the page from the disk.
 \subsubsection{Experiment Methodology}
-One neat way to conduct the measurement is to use mmap (memory mapped files). The mmap function is a system call that directly maps a file to the virtual memory space of the calling process.Upon mapping, the actual data won\'t be copied into main memory until accessed by the process. This is because the mmap approach is using lazy loading, which makes it perfect for our measurement of a page fault service time. 
+One neat way to conduct the measurement is to use mmap (memory mapped files). The mmap function is a system call that directly maps a file to the virtual memory space of the calling process.Upon mapping, the actual data won\'t be copied into main memory until accessed by the process. This is because the mmap approach is using lazy loading, which makes it perfect for our measurement of a page fault service time.
 
 The experiment is devided into two steps; first part is to prove that a page fault occurces when sequentially accessing the file; second part is to calculate the average service time during a page fault.
 Both of the experiments are run against a dummy file we created with the same repeated letters, size 400KB. The page size of the system is 4KB, which is got from a sysconf system call.
 
 In the first experiment, since the mmap returns a pointer to the starting address where the file is mapped in the virtual memory, we iterate the pointer through all letters in the file, that is we are accessing one byte at a time. Since the file is loaded into the physical memory page by page, this would force a page fault accessing the file every 4KB (size of one page in the system). We decide to do a backward scan on moving the pointer in case of a potential read-ahead.
 
-In the second experiment, we set the scan stride to be 4KB. This forces a page fault every byte of access in that mmap loads the file from disk to physical memory page by page, thus gives us a measurable results to calculate the average. 
-We iterate 10,000 times mmap-ing and munmap-ing the file, and access a byte every 4KB to the file. Since the size of the file is 400KB, this gives us 1,000,000 samples. 
+In the second experiment, we set the scan stride to be 4KB. This forces a page fault every byte of access in that mmap loads the file from disk to physical memory page by page, thus gives us a measurable results to calculate the average.
+We iterate 10,000 times mmap-ing and munmap-ing the file, and access a byte every 4KB to the file. Since the size of the file is 400KB, this gives us 1,000,000 samples.
 One thing to notice is that to repeat the measurement,  the file may be kept in the file system buffer cache. Therefore, the buffer cache should be flushed out during each iteration to get an accurate result.
 
 \subsubsection{Prediction}
-Each page fault implies loading 4KB from the disk, which should spend much longer than directlly accessing physical memory. We estimate this process to around This should take from 8 to 10 ms on the bare hardware. The software overhead may add 1ms. 
+Each page fault implies loading 4KB from the disk, which should spend much longer than directlly accessing physical memory. We estimate this process to around This should take from 8 to 10 ms on the bare hardware. The software overhead may add 1ms.
 See table~\ref{table:pagefault} for data.
 
 \subsubsection{Experiment Results}
@@ -663,7 +663,7 @@ There is an interesting phenomenon we observed during experiment we want to ment
 %----------------------------- subsection --------------------------%
 \subsection{Peak Bandwidth}
 \subsubsection{Experiment Methodology}
-In order to measure peak bandwidth, we open a TCP connection, and keep sending data through it. We measured the time to send 1MB/10MB/100MB/1000MB/2000MB of data, 256 bytes per packets, to get the stable peak bandwidth. We do some experiments both on loopback interface and direct cable connection, some more is done on loopback interface to explore the stable performance. The data packets are sent one way from client to server, server will simply discard anything it receives, and will automatically stop when client send a package with less than 256 bytes of data. Client is the machine we are measuring, and the specification of server machine can be found in \\%TODO \ref{fig:server}add the spec form here 
+In order to measure peak bandwidth, we open a TCP connection, and keep sending data through it. We measured the time to send 1MB/10MB/100MB/1000MB/2000MB of data, 256 bytes per packets, to get the stable peak bandwidth. We do some experiments both on loopback interface and direct cable connection, some more is done on loopback interface to explore the stable performance. The data packets are sent one way from client to server, server will simply discard anything it receives, and will automatically stop when client send a package with less than 256 bytes of data. Client is the machine we are measuring, and the specification of server machine can be found in \\%TODO \ref{fig:server}add the spec form here
 We chose 256 bytes as one data packet also to avoid being split into multiple packets, 256 bytes is within the 1500bytes MTU.\\
 Our initial experiments are all done using queue size of 5 on server, we then realized that queue size may significantly affect performance, so we added more experiments with various of queue size to exploit the actual peak bandwidth.\\
 
@@ -731,10 +731,10 @@ In terms of close operation, since linux treat loopback interface as a file, whe
 %----------------------------- subsection --------------------------%
 \subsection{Size of cache}
 \subsubsection{Experiment Methodology}
-In order to estimate the size of the file cache, we created a variety of files with sizes ranging from 50MB to 2GB. With each different file, we measured the time it took to read the file over an average of 10 times per file. This idea behind the methodology comes from the idea that attempting to read within a file that fits within a cache will have relatively the same read time. However, as soon as we have a file whose size is larger than the cache size and we try to access a part of the file outside of the cache, the read time will be much larger. Therefore, we attempted to read from a variety of file sizes in order to capture the size at which the large read time occurs. The large jump in read time will indicate to us the size of the file cache of the system. 
+In order to estimate the size of the file cache, we created a variety of files with sizes ranging from 50MB to 2GB. With each different file, we measured the time it took to read the file over an average of 10 times per file. This idea behind the methodology comes from the idea that attempting to read within a file that fits within a cache will have relatively the same read time. However, as soon as we have a file whose size is larger than the cache size and we try to access a part of the file outside of the cache, the read time will be much larger. Therefore, we attempted to read from a variety of file sizes in order to capture the size at which the large read time occurs. The large jump in read time will indicate to us the size of the file cache of the system.
 
 \subsubsection{Prediction}
-We can safely say that the size of the cache will be smaller than main memory, which is 2GB. Since the OS will take a large portion of the main memory for file system cache, we predict that the file cache size will be less than half of the size of main memory, <1GB. 
+We can safely say that the size of the cache will be smaller than main memory, which is 2GB. Since the OS will take a large portion of the main memory for file system cache, we predict that the file cache size will be less than half of the size of main memory, <1GB.
 
 \subsubsection{Experiment Results}
 
@@ -748,14 +748,14 @@ We can safely say that the size of the cache will be smaller than main memory, w
 The results can be found in figure~\ref{fig:file_cache_size}.
 
 \subsubsection{Result Discussion}
-The results show that there is a small increase in read time at 200KB. From there, we have a very small increase in read time until 776MB (2\textsuperscript{19.6} KB). The read time then begins to level out again towards the end after 1.5GB (2\textsuperscript{20.6} KB). This indicates to us that the file cache size is a little larger than 776MB. We are able to deduce this from the relationship between file cache hits and the size of the file. If the file is able to fit within the cache, then we will be reading from caches and thus have a relatively stable reading time for all files of sizes that fit within the cache. Those files that are too large to fit in the cache, however, will cause cache misses and thus longer time to fetch from outside of the cache. This increase in time can be seen at around 776MB, which indicates to us that this is the relative size of the file cache. 
+The results show that there is a small increase in read time at 200KB. From there, we have a very small increase in read time until 776MB (2\textsuperscript{19.6} KB). The read time then begins to level out again towards the end after 1.5GB (2\textsuperscript{20.6} KB). This indicates to us that the file cache size is a little larger than 776MB. We are able to deduce this from the relationship between file cache hits and the size of the file. If the file is able to fit within the cache, then we will be reading from caches and thus have a relatively stable reading time for all files of sizes that fit within the cache. Those files that are too large to fit in the cache, however, will cause cache misses and thus longer time to fetch from outside of the cache. This increase in time can be seen at around 776MB, which indicates to us that this is the relative size of the file cache.
 
 Overall, our methodology was successful in helping us attain the information we required. However, to pinpoint the size of the cache more clearly, future experiments will benefit form decreasing the rate in which we are increasing the file sizes. As vague as our estimates may have been, our estimates were accurate relative to the information attained from the experiment. The experiment does, however, give us a fairly loose range from which we can expect our cache size to be.
 
 \subsection{File read time}
 
 \subsubsection{Experiment Methodology}
-The basis of our experiment is to perform both sequential and random reads from files of different sizes, which we made to range from 8KB to 200MG. The purpose of this experiment was to compare and contrast the read time for sequential and random reads. In order to do so, we needed to use a raw device to ensure that we were not measuring cached data. As a point of clarification, a raw device is a special block device file that bypasses the OS's caches and buffers. However, raw devices were deprecated on Linux systems, therefore we alternatively used the \texttt{O\_DIRECT} and \texttt{O\_SYNC} flags associated with the \texttt{open()} system call. The \texttt{O\_DIRECT} flag ensures that the file is not brought into the file buffer cache, and every read goes to the disk. The \texttt{O\_SYNC} flag ensures that the reads were performed synchronously. 
+The basis of our experiment is to perform both sequential and random reads from files of different sizes, which we made to range from 8KB to 200MG. The purpose of this experiment was to compare and contrast the read time for sequential and random reads. In order to do so, we needed to use a raw device to ensure that we were not measuring cached data. As a point of clarification, a raw device is a special block device file that bypasses the OS's caches and buffers. However, raw devices were deprecated on Linux systems, therefore we alternatively used the \texttt{O\_DIRECT} and \texttt{O\_SYNC} flags associated with the \texttt{open()} system call. The \texttt{O\_DIRECT} flag ensures that the file is not brought into the file buffer cache, and every read goes to the disk. The \texttt{O\_SYNC} flag ensures that the reads were performed synchronously.
 We also verified that the file is not brought into the cache by observing the output of the \texttt{vmstat} command in linux. For reading sequential blocks, we simply used read() and put time markers for benchmarking around the read commands for reading an entire file. The random reads were harder to perform because we had to indicate where to fetch the next block. In order to do so, we used lseek() along with read(). The overall methodology for benchmarking random file accesses was the same as sequential accesses except for the need to use lseek() to indicate the amount to bytes to offset before starting the read. All reads for different file sizes were done 100 times and the average was taken per block.
 
 \subsubsection{Prediction}
@@ -776,7 +776,7 @@ The results can be found in figure~\ref{fig:file_read_times}.
 \subsubsection{Result Discussion}
 We will now consider the results of the experiment as it currently stands. For the sequential read, we see that there is a slight decreasing trend initially. This was what we had anticipated in our estimations where we see that the sequential reads are taking advantage locality and pre-fetching. However, we don't see the same pattern in random reads because of the randomness with which we area accessing the files' data. We see a slight increase in both sequential and random file reading at around 2\textsuperscript{9.6}KB and an even more drastic increase in time at 2\textsuperscript{19.6}KB. The larger increase is due to files exceeding the size of the file cache, which we did not take into account in our estimation. This increase is more drastic for random reads because we are essentially making random reads from disk. This means that there will be extra time needed to find the different blocks on disk. Compared to sequential read which doesn't require jumping around to seek on the disk, there is a larger increase in read time for random reads once the file exceeds cache size.
 
-Our methodology was successful overall as we can see the difference in time needed to make sequential and random read from different sized files. However, there is room for improvement. Had we ran the benchmarking for read times with a larger upper bound, we can expect to see when the read time for random reads will begin to plateau. This is the point in which the read time for a block will be dominated mostly by random read time from disk. Because we are measuring the average read over 100 iterations, we decided to end the testing prematurely due to time constraints. 
+Our methodology was successful overall as we can see the difference in time needed to make sequential and random read from different sized files. However, there is room for improvement. Had we ran the benchmarking for read times with a larger upper bound, we can expect to see when the read time for random reads will begin to plateau. This is the point in which the read time for a block will be dominated mostly by random read time from disk. Because we are measuring the average read over 100 iterations, we decided to end the testing prematurely due to time constraints.
 
 Sequential access may not be sequential if given enough time or if trying to access a large file. Even though the system attempts to place related blocks in approximately the same area or sequentially, this effort may prove to be more difficult when there is not enough room to place blocks sequentially. In such a case, the blocks will be placed within some distance from its previous block. If the file is large enough, this non-sequential placement of blocks could result in high levels of fragmentation and be less sequential.
 
@@ -838,7 +838,7 @@ Contention - Qiheng\\
 
 The time we spent is:\\
 Boyuan Qin: 20 + hours\\
-Qiheng Wang: 
+Qiheng Wang:
 
 %============================= section ==========================%
 \section{Complete Overview}
@@ -948,7 +948,49 @@ Qiheng Wang:
   \end{center}
   \label{table:original_tcp_rrt}
 \end{table}
-
+\begin{table}[h]
+  \caption{Machine Specifications for remove server}
+  \begin{center}
+    \resizebox{\columnwidth}{!}{
+      \begin{tabular}{|>{\centering\arraybackslash\bfseries}m{1in}|l|l|}
+        \hline
+        \multirow{8}{*}{Processor}       & Model                                 & Intel\textregistered Core\texttrademark i5 CPU  M 460          \\ \cline{2-3}
+                                         & Instruction Set                       & 64 bit                                                         \\ \cline{2-3}
+                                         & Cycle Time                            & 0.395ns(2.53GHz frequency)                                     \\ \cline{2-3}
+                                         & L1 data cache                         & 32KB per core, 8-way set associative, 64-byte line size        \\ \cline{2-3}
+                                         & L1 instruction cache                  & 32KB per core, 8-way set associative, 64-byte line size        \\ \cline{2-3}
+                                         & L2 data cache                         & 256KB, 8-way set associative, 64-byte line size              \\ \cline{2-3}
+                                         & L3 data cache                         & 3072KB, 12-way set associative, 64-byte line size              \\ \cline{2-3}
+                                         & FSB                                   & 1066 MHz                                                       \\
+        \hline
+        \multirow{11}{*}{Hard Drive}     & Model                                 & Seagate Momentus\textregistered  5400.6 SATA model ST9320325AS \\ \cline{2-3}
+                                         & Capacity                              & 320GB                                                          \\ \cline{2-3}
+                                         & Cache                                 & 8 Mbytes                                                       \\ \cline{2-3}
+                                         & RPM                                   & 5400                                                           \\ \cline{2-3}
+                                         & Physical heads                        & 4                                                              \\ \cline{2-3}
+                                         & Discs                                 & 2                                                              \\ \cline{2-3}
+                                         & Average Seek Read                     & 14ms typical                                                   \\ \cline{2-3}
+                                         & Full Stroke Seek                      & 30ms                                                           \\ \cline{2-3}
+                                         & Average Latency                       & 5.6ms                                                          \\ \cline{2-3}
+                                         & Track to track seek time              & 1ms typical                                                    \\ \cline{2-3}
+                                         & I/O data transfer rate                & 2400 Mbytes/s max                                               \\
+        \hline
+        \multirow{3}{*}{Memory}          & Capacity                              & Dual channel(symetric), each 1024 MBytes                       \\ \cline{2-3}
+                                         & Frequency                             & DDR3 PC3-10700 667 MHz                                         \\ \cline{2-3}
+                                         & Width                                 & 64 bit per channel                                             \\
+        \hline
+        \multirow{2}{*}{Network Card}    & Model                                 & marvell yukon 88e8055                                          \\ \cline{2-3}
+                                         & Data Transfer Rate                    & 10/100/1000Mbps                                                \\
+        \hline
+        \multicolumn{1}{|>{\bfseries}c|}{\multirow{2}{*}{OS}} & \multirow{2}{*}{ Linux Distribution } & Ubuntu 12.04.4 LTS                        \\
+                                                              & \multicolumn{1}{c|}{}                 & GNU/Linux 3.8.0-35-generic i686           \\
+  % here if use |c| instead of c|, will generate an extra vertical line
+        \hline
+      \end{tabular}
+    } % end of resizebox
+  \end{center}
+  \label{table:machine_description_remote}
+\end{table}
 %-----------------------------------------------------------------------------
 % BIBLIOGRAPHY
 %-----------------------------------------------------------------------------
